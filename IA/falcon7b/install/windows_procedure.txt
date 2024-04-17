@@ -20,3 +20,7 @@ git lfs install <- attention ici GPU
 
 python inference.py 
 
+Gestion des cuda
+-   pip uninstall torch
+-   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118   
+

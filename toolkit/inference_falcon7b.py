@@ -4,27 +4,27 @@ import torch
 save_path = "models"
 
 # #Empty GPU cache HEREGPU
-# torch.cuda.empty_cache()
+torch.cuda.empty_cache()
 
 # #Define the batch size and load the model's dataset
-# dataset = "models"
-# torch.utils.data.DataLoader(dataset, batch_size=1)
+dataset = "models"
+torch.utils.data.DataLoader(dataset, batch_size=1)
 
 #Load the model and tokenizer from local storage
-# local_model = AutoModelForCausalLM.from_pretrained(save_path, return_dict=True, trust_remote_code=True, device_map="auto",torch_dtype=torch.bfloat16).to("cuda")
-local_model = AutoModelForCausalLM.from_pretrained(save_path, return_dict=True, trust_remote_code=True) #CPU
+local_model = AutoModelForCausalLM.from_pretrained(save_path, return_dict=True, trust_remote_code=True, device_map="cuda",torch_dtype=torch.bfloat16).to("cuda") #GPU
+# local_model = AutoModelForCausalLM.from_pretrained(save_path, return_dict=True, trust_remote_code=True) #CPU
 local_tokenizer = AutoTokenizer.from_pretrained(save_path) #2
-# pipeline = transformers.pipeline(
-#     "text-generation",
-#     model=local_model,
-#     tokenizer=local_tokenizer,
-#     torch_dtype=torch.bfloat16,
-# )
 pipeline = transformers.pipeline(
     "text-generation",
     model=local_model,
     tokenizer=local_tokenizer,
-) #CPU
+    torch_dtype=torch.bfloat16,
+)
+# pipeline = transformers.pipeline(
+#     "text-generation",
+#     model=local_model,
+#     tokenizer=local_tokenizer,
+# ) #CPU
 
 #Prompt the model with the required parameters
 sequences = pipeline(
