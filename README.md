@@ -16,6 +16,11 @@
 
 IA pour la génération de texte
 
+1. Lancement
+```commandline
+py -3.8 ./toolkit/inference_falcon7b.py
+``` 
+
 ## Stable-diffusion
 
 IA pour générer des images et améliorer des images
