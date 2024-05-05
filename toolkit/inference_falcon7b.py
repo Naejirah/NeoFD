@@ -1,13 +1,13 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, PreTrainedModel
 import transformers
 import torch
-save_path = "models"
+save_path = "IA/falcon/models/falcon-7b"
 
 # #Empty GPU cache HEREGPU
 torch.cuda.empty_cache()
 
 # #Define the batch size and load the model's dataset
-dataset = "models"
+dataset = "IA/falcon/models/falcon-7b"
 torch.utils.data.DataLoader(dataset, batch_size=1)
 
 #Load the model and tokenizer from local storage
