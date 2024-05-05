@@ -1,5 +1,17 @@
 # Projet-Master
 
+## Lancement du projet
+
+1. Windows
+
+    1. Installation de git via https://gitforwindows.org/
+
+    2. Installer les prérequis des IA
+    ```commandline
+    git clone https://github.com/Naejirah/NeoFD.git
+    ./install_windows
+    ``` 
+
 ## Falcon 7b
 
 IA pour la génération de texte
