@@ -28,7 +28,7 @@ if(-not $isInstalledPyScript)
     Invoke-WebRequest -Uri $pythonUrl -OutFile "python-$pythonVersion-amd64.exe"
     
     # Install Python silently
-    Start-Process -FilePath "python-$pythonVersion-amd64.exe" -ArgumentList "/quiet" -Wait
+    Start-Process -FilePath "python-$pythonVersion-amd64.exe" -ArgumentList "/quiet PrependPath=1" -Wait
 
     # Cleanup the downloaded installer
     Remove-Item "python-$pythonVersion-amd64.exe"
@@ -48,7 +48,7 @@ if(-not $isInstalledPyIa)
     Invoke-WebRequest -Uri $pythonUrl -OutFile "python-$pythonVersion-amd64.exe"
 
     # Install Python silently
-    Start-Process -FilePath "python-$pythonVersion-amd64.exe" -ArgumentList "/quiet" -Wait
+    Start-Process -FilePath "python-$pythonVersion-amd64.exe" -ArgumentList "/quiet PrependPath=1" -Wait
 
     # Cleanup the downloaded installer
     Remove-Item "python-$pythonVersion-amd64.exe"
@@ -57,13 +57,16 @@ py -3.8 -m pip install virtualenv
 py -3.8 -m pip install --upgrade pip
 
 # 3 - Installation falcon
+Write-Host "`n`n Installation de Falcon `n`n"
 Set-Location IA/falcon/install
 .\install_windows.ps1
  
 # 4 - Installation blip
+Write-Host "`n`n Installation de BLIP `n`n"
 Set-Location IA/blip/install
 .\install_windows.ps1
 
 # 5 - Installation stable-diffusion
+Write-Host "`n`n Installation de Stable-diffusion `n`n"
 Set-Location IA/stable-diffusion/install
 .\install_windows.ps1
