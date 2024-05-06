@@ -2,13 +2,13 @@ import requests
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 
-save_path = "models"
+save_path = "IA/blip/models"
 
 processor = BlipProcessor.from_pretrained(save_path)
 model = BlipForConditionalGeneration.from_pretrained(save_path)
 
 # img_url = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/demo.jpg' 
-img_url = '../stable/stablediffusion/outputs/txt2img-samples/samples/image.png'
+img_url = 'output/00088.png'
 # raw_image = Image.open(requests.get(img_url, stream=True).raw).convert('RGB')
 raw_image = Image.open(img_url).convert('RGB')
 
