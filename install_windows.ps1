@@ -64,3 +64,6 @@ Set-Location IA/falcon/install
 Set-Location IA/blip/install
 .\install_windows.ps1
 
+# 5 - Installation stable-diffusion
+Set-Location IA/stable-diffusion/install
+.\install_windows.ps1

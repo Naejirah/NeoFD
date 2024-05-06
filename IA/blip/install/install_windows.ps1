@@ -23,5 +23,7 @@ catch {
     Write-Host "Erreur installation BLIP" -ForegroundColor Red
 }
 
+deactivate
+
 Set-Location ../../
 
