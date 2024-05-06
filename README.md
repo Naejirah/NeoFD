@@ -1,6 +1,6 @@
 # Projet-Master
 
-## Lancement du projet
+## Installation du projet
 
 1. Windows
 
@@ -12,13 +12,22 @@
     ./install_windows
     ``` 
 
-## Falcon 7b
+## Falcon
 
 IA pour la génération de texte
 
 1. Lancement
 ```commandline
 py -3.8 ./toolkit/inference_falcon7b.py
+``` 
+
+## BLIP
+
+IA pour la génération de texte à partir d'une image
+
+1. Lancement
+```commandline
+py -3.8 ./toolkit/inference_blip.py
 ``` 
 
 ## Stable-diffusion
