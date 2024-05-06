@@ -1,0 +1,6 @@
+virtualenv blipEnv
+.\blipEnv\Scripts\activate.ps1
+
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install transformers
+python .\deploy.py

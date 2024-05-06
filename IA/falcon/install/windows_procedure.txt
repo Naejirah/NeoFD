@@ -1,0 +1,26 @@
+1) installer python 3
+https://www.python.org/downloads/release/python-3119/
+pip install virtualenv
+pip install source
+(pip -V)
+
+2) installer falcon7b
+(cd '.\Documents\master\S3\Projet master\falcon7b\')
+mkdir models
+virtualenv falconenv 
+falconenv\Scripts\activate.ps1
+
+pip install transformers torch einops 
+création deploy.py
+
+pip install accelerate -> gpu
+
+python deploy.py 
+git lfs install <- attention ici GPU
+
+python inference.py 
+
+Gestion des cuda
+-   pip uninstall torch
+-   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118   
+
