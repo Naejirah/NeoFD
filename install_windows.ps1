@@ -56,13 +56,13 @@ if(-not $isInstalledPyIa)
 py -3.8 -m pip install virtualenv
 py -3.8 -m pip install --upgrade pip
 
-# # 3 - Installation falcon
-# Set-Location IA/falcon/install
-# .\install_windows.ps1
+# 3 - Installation falcon
+Set-Location IA/falcon/install
+.\install_windows.ps1
  
-# # 4 - Installation blip
-# Set-Location IA/blip/install
-# .\install_windows.ps1
+# 4 - Installation blip
+Set-Location IA/blip/install
+.\install_windows.ps1
 
 # 5 - Installation stable-diffusion
 Set-Location IA/stable-diffusion/install
