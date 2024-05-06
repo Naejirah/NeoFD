@@ -8,7 +8,7 @@ processor = BlipProcessor.from_pretrained(save_path)
 model = BlipForConditionalGeneration.from_pretrained(save_path)
 
 # img_url = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/demo.jpg' 
-img_url = 'output/00088.png'
+img_url = 'outputs/txt2img-samples/samples/00008.png'
 # raw_image = Image.open(requests.get(img_url, stream=True).raw).convert('RGB')
 raw_image = Image.open(img_url).convert('RGB')
 

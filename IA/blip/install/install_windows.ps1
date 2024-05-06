@@ -10,14 +10,13 @@ try {
     blipEnv\Scripts\activate.ps1
 
     #Gestion des cuda
-    py -3.8 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118  
-    py -3.8 -m pip install transformers einops 
+    blipEnv\Scripts\pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    blipEnv\Scripts\pip install install transformers einops --ignore-installed
 
     #gpu
-    py -3.8 -m pip install accelerate
-    git lfs install
+    blipEnv\Scripts\pip install install accelerate --ignore-installed
 
-    py -3.8 install/deploy.py
+    blipEnv\Scripts\python install/deploy.py
 }
 catch {
     Write-Host "Erreur installation BLIP" -ForegroundColor Red
