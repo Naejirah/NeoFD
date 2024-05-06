@@ -2,3 +2,6 @@ IA/falcon/falconEnv/*
 IA/falcon/models/*
 IA/blip/blipEnv/*
 IA/blip/models/*
+IA/stable-diffusion/models/*
+IA/stable-diffusion/stableEnv/*
+outputs/*
