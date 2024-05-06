@@ -17,7 +17,7 @@ if($listPythonVersion -match "Python 3.8")
 
 $installDir = Get-Location
 
-# Installation Python 3.11.9 pour l'API 
+# 1 - Installation Python 3.11.9 pour l'API 
 if(-not $isInstalledPyScript)
 {
     # Define the Python version and download URL
@@ -37,6 +37,7 @@ if(-not $isInstalledPyScript)
 py -3.11 -m pip install virtualenv
 
 
+# 2 - Installation de la version de python pour les IA
 if(-not $isInstalledPyIa)
 {
     # Define the Python version and download URL
@@ -55,8 +56,11 @@ if(-not $isInstalledPyIa)
 py -3.8 -m pip install virtualenv
 py -3.8 -m pip install --upgrade pip
 
-# Installation falcon7b
+# 3 - Installation falcon
 Set-Location IA/falcon/install
 .\install_windows.ps1
  
+# 4 - Installation blip
+Set-Location IA/blip/install
+.\install_windows.ps1
 

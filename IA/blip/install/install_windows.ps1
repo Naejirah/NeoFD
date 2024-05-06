@@ -6,8 +6,8 @@ if(-not(Test-Path -Path "models"))
 }
 
 try {
-    py -3.8 -m virtualenv falconEnv
-    falconEnv\Scripts\activate.ps1
+    py -3.8 -m virtualenv blipEnv
+    blipEnv\Scripts\activate.ps1
 
     #Gestion des cuda
     py -3.8 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118  
@@ -20,10 +20,8 @@ try {
     py -3.8 install/deploy.py
 }
 catch {
-    Write-Host "Erreur installation Falcon7b" -ForegroundColor Red
+    Write-Host "Erreur installation BLIP" -ForegroundColor Red
 }
-
-deactivate
 
 Set-Location ../../
 

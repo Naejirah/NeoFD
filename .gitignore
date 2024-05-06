@@ -1,2 +1,4 @@
 IA/falcon/falconEnv/*
 IA/falcon/models/*
+IA/blip/blipEnv/*
+IA/blip/models/*
