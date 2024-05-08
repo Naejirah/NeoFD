@@ -33,7 +33,7 @@ tags:
       url: http://swagger.io
   
   - name: Installation
-    description: Lancement d'une génération par une IA par IA
+    description: Installation des fichiers nécessaires à une IA
     externalDocs:
       description: Find out more
       url: http://swagger.io
@@ -44,11 +44,6 @@ tags:
       description: Find out more
       url: http://swagger.io
   
-  - name: Résultat
-    description: Lancement d'une génération par une IA # par IA
-    externalDocs:
-      description: Find out more
-      url: http://swagger.io 
 paths:
   /ia:
     post:
@@ -98,6 +93,7 @@ paths:
           description: Invalid input
         '422':
           description: Validation exception
+          
   /ia/trouverParCategorie:
     get:
       tags:
@@ -129,6 +125,70 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
+  
+  /categorie/{nomCategorie}:
+    post:
+      tags:
+        - Categorie
+      summary: Ajoute un nouveau modèle d'IA
+      description: Add a new pet to the store
+      operationId: addCategorie
+      parameters:
+        - name: nomCategorie
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pet'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+  
+  /categorie:
+    get:
+      tags:
+        - Categorie
+      summary: Donne les catégories existantes
+      description: Add a new pet to the store
+      operationId: getCategorie
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
           
   /modele/{nomIA}:
     post:
@@ -198,6 +258,7 @@ paths:
           description: Invalid input
         '422':
           description: Validation exception
+          
   /modele/{nomIA}/{modeleIA}:
     delete:
       tags:
@@ -232,16 +293,292 @@ paths:
           description: Invalid input
         '422':
           description: Validation exception
+  
+  /ia/fichier_installation/{nomIA}:
+    post:
+      tags:
+        - Installation
+      summary: Ajoute un nouveau modèle d'IA
+      description: Add a new pet to the store
+      operationId: ajoutFichierInstallation
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: query
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: fichiers
+          in: query
+          description: Un fichier setup.py (si hugging face) ou un fichier shell + requires.txt
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pet'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    get:
+      tags:
+        - Installation
+      summary: Retourne les fichiers d'installation d'une IA
+      description: Add a new pet to the store
+      operationId: getFichierInstallation
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: query
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+          
+  /ia/fichier_installation/{nomIA}/{plateforme}:
+    delete:
+      tags:
+        - Installation
+      summary: Supprime un fichier d'installation
+      description: Add a new pet to the store
+      operationId: supprFichierInstallation
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    post:
+      tags:
+        - Installation
+      summary: Lancement d'une installation d'une IA
+      description: Add a new pet to the store
+      operationId: lancementFichierInstallation
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+          
+          
+  /ia/fichier_generation/{nomIA}:
+    post:
+      tags:
+        - Installation
+      summary: Ajoute un fichier d'installation
+      description: Add a new pet to the store
+      operationId: ajoutFichierLancement
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: query
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: fichier
+          in: query
+          description: Un fichier inference.py
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pet'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    get:
+      tags:
+        - Installation
+      summary: Retourne les fichiers de génération
+      description: Add a new pet to the store
+      operationId: getFichierLancement
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: query
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    delete:
+      tags:
+        - Installation
+      summary: Supprime un fichier de génération
+      description: Add a new pet to the store
+      operationId: supprFichierLancement
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+  
 
-
-  /ia/txt2txt/{nomIA}/{modeleIA}:
+  /ia/generation/{nomCategorie}/{nomIA}/{modeleIA}:
     post:
       tags:
         - Génération
       summary: Génère du texte à partir de texte
       description: Génère du texte à partir de texte
-      operationId: addTxtFromTxt
+      operationId: generationParIA
       parameters:
+        - name: nomCategorie
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: string
         - name: nomIA
           in: path
           description: ID of pet to update
@@ -281,40 +618,33 @@ paths:
           description: Invalid input
         '422':
           description: Validation exception
-          
-  /ia/txt2img/{nomIA}/{modeleIA}:
-    post:
+    
+  /ia/resultat/{nomCategorie}:
+    get:
       tags:
         - Génération
-      summary: Convertit du texte en image
-      description: Crée une ou plusieurs images
-      operationId: addImgFromTxt
+      summary: Accède aux résultats d'une IA
+      description: Génère du texte à partir de texte
+      operationId: getResultat
       parameters:
-        - name: nomIA
+        - name: nomCategorie
           in: path
-          description: Nom de l'IA 
+          description: ID of pet to update
           required: true
+          schema:
+            type: string
+        - name: nomIA
+          in: query
+          description: ID of pet to update
+          required: false
           schema:
             type: string
         - name: modeleIA
-          in: path
-          description: Modèle de l'IA à supprimer
-          required: true
+          in: query
+          description: ID of pet to update
+          required: false
           schema:
             type: string
-      requestBody:
-        description: Génération d'une nouvelle Image
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Img'
-        required: true
       responses:
         '200':
           description: Successful operation
@@ -330,101 +660,6 @@ paths:
         '422':
           description: Validation exception
           
-  /ia/img2txt/{nomIA}/{modeleIA}:
-    post:
-      tags:
-        - Génération
-      summary: Convertit du texte en image
-      description: Crée une ou plusieurs images
-      operationId: addTxtFromImg
-      parameters:
-        - name: nomIA
-          in: path
-          description: Nom de l'IA 
-          required: true
-          schema:
-            type: string
-        - name: modeleIA
-          in: path
-          description: Modèle de l'IA à supprimer
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Génération d'une nouvelle Image
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Img'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Img'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Img'
-        '400':
-          description: Invalid input
-        '422':
-          description: Validation exception
-            
-  /IA/img2img/{nomIA}/{modeleIA}:
-    post:
-      tags:
-        - Génération
-      summary: Convertit du texte en image
-      description: Crée une ou plusieurs images
-      operationId: addImgFromImg
-      parameters:
-        - name: nomIA
-          in: path
-          description: Nom de l'IA 
-          required: true
-          schema:
-            type: string
-        - name: modeleIA
-          in: path
-          description: Modèle de l'IA à supprimer
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Génération d'une nouvelle Image
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Img'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Img'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Img'
-        '400':
-          description: Invalid input
-        '422':
-          description: Validation exception
             
 components:
   schemas:
