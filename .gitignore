@@ -1,5 +1,6 @@
 IA/falcon/falconEnv/*
 IA/falcon/models/*
 venv/
-__pycache__
+__pycache__/
 .idea/
+*.py[cod]

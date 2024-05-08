@@ -2,7 +2,7 @@ import tkinter as tk
 from functools import partial
 
 
-class PageGenericAIModel(tk.Frame):
+class BaseAIModelPage(tk.Frame):
     model_dict = {}
 
     def get_model_path(self, path):
@@ -17,7 +17,7 @@ class PageGenericAIModel(tk.Frame):
         super().__init__(*args, **kwargs)
 
         self.current_model_path = ''
-        self.row = 0
+        self.row = 1
         i = 0
 
         # self.current_model_path_radiobutton = tk.StringVar()
