@@ -1,22 +1,15 @@
 import tkinter as tk
 
-from .generic_ai_type import PageGenericAiType
-from .generic import PageGeneric
+from .ai_model import BaseAIModelPage
+from .text_input import BaseTextInput
 
 
-class Falcon(PageGeneric):
+class BaseTxt2Txt(BaseAIModelPage, BaseTextInput):
+    def generate(self):
+        print('Model : {}'.format(self.current_model_path))
+        # print('Model path with radiobutton : ' + self.current_model_path_radiobutton.get())
+        super().generate()
+        print('Should generate a Text\n')
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        label = tk.Label(self, text="I'm at Falcon")
-        label.pack(side="top", fill="both", expand=True)
-
-
-class Txt2Txt(PageGenericAiType):
-    name = 'Text to Text'
-    ai_dict = {
-        'Falcon': Falcon
-    }
-
-    ai_list = ['Falcon']
-    model_list = ['Falcon7B']
