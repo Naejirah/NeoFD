@@ -591,19 +591,13 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        description: Génération d'une nouvelle Image
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Img'
-        required: true
+        - name: nomFichierParametre
+          in: query
+          description: Fichier de paramètre pour le lancement de l'IA au format json
+          required: false
+          schema:
+            type: string
+            format: binary
       responses:
         '200':
           description: Successful operation

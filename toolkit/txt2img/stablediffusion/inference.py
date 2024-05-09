@@ -1,0 +1,1 @@
+C:/Users/Thibault/Documents/master/S3/Projet master/NeoFD/IA/stable-diffusion/stablediffusion/scripts/txt2img.py

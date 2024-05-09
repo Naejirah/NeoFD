@@ -1,1 +1,3 @@
 faire des chemins symboliques pour éviter plusieurs install
+Powershell en admin + 
+    New-Item -Path .\toolkit\img2img\stablediffusion\inference.py -ItemType SymbolicLink -Value ./IA/stable-diffusion/stablediffusion/scripts/img2img.py

@@ -2,7 +2,7 @@ import requests
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 
-save_path = "IA/blip/models"
+save_path = "IA/blip/models/blip-image-captioning-base"
 
 processor = BlipProcessor.from_pretrained(save_path)
 model = BlipForConditionalGeneration.from_pretrained(save_path)
