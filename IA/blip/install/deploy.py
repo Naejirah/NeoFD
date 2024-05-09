@@ -3,7 +3,7 @@ import transformers
 import torch
 
 #Enter your local directory you want to store the model in
-save_path = "models"
+save_path = "models/blip-image-captioning-base"
 
 #Specify the model you want to download from HF
 hf_model = 'Salesforce/blip-image-captioning-base'

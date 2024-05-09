@@ -18,7 +18,7 @@ IA pour la génération de texte
 
 1. Lancement
 ```commandline
-IA\falcon\falconEnv\Scripts\python ./toolkit/inference_falcon7b.py
+IA\falcon\falconEnv\Scripts\python ./toolkit/txt2txt/inference.py
 ``` 
 
 2. Résultat
@@ -31,7 +31,7 @@ IA pour la génération de texte à partir d'une image
 
 1. Lancement
 ```commandline
-IA\blip\blipEnv\Scripts\python ./toolkit/inference_blip.py
+IA\blip\blipEnv\Scripts\python ./toolkit/img2txt/blip/inference.py
 ``` 
 
 2. Résultat
