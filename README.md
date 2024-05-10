@@ -18,7 +18,7 @@ IA pour la génération de texte
 
 1. Lancement
 ```commandline
-IA\falcon\falconEnv\Scripts\python ./toolkit/txt2txt/inference.py
+IA\falcon\falconEnv\Scripts\python ./toolkit/txt2txt/falcon/inference.py
 ``` 
 
 2. Résultat
@@ -46,7 +46,7 @@ https://github.com/Stability-AI/stablediffusion?tab=readme-ov-file
 
 1. Lancement
 ```commandline
-IA\stable-diffusion\stableEnv\Scripts\python IA/stable-diffusion/stablediffusion/scripts/txt2img.py --prompt "a professional photograph of an astronaut riding a horse" --ckpt [ckpt] --config IA/stable-diffusion/stablediffusion/configs/stable-diffusion/v2-inference-v.yaml --H 512 --W 512 --bf16 --device cuda
+IA\stable-diffusion\stableEnv\Scripts\python .\toolkit\txt2img\stablediffusion\inference.py --prompt "a professional photograph of an astronaut riding a horse" --ckpt [ckpt] --config IA/stable-diffusion/stablediffusion/configs/stable-diffusion/v2-inference-v.yaml --H 512 --W 512 --bf16 --device cuda
 ``` 
 
 2. Résultat
