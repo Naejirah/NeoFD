@@ -32,7 +32,7 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia, nom_fichier_parametre=No
     inference = f'./toolkit/{nom_categorie}/{nom_ia}/inference.py'
 
     # Exécuter le script Python dans l'environnement virtuel
-    process = subprocess.Popen([python_virtualenv, inference], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen([python_virtualenv, inference, 'launch',"-path", f'IA/{nom_ia}/models/{modele_ia}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     # Attendre que le subprocess se termine et récupérer la sortie
     stdout, stderr = process.communicate()
