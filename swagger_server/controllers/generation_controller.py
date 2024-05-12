@@ -37,8 +37,6 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
     if(nom_fichier_parametre == None):
         nom_fichier = f'./toolkit/{nom_categorie}/{nom_ia}/param.json'
     else:
-        nom_fichier = nom_fichier_parametre
-        print(nom_fichier)
         nom_fichier = f'./toolkit/{nom_categorie}/{nom_ia}/param.json'
     
     paramFile = open(nom_fichier)
@@ -46,15 +44,11 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
 
     for p in param.keys():
         tabParam.append(p)
-        print(p[0])
         if param[p] != "modele_ia":
             tabParam.append(param[p])
         else:
             tabParam.append(f'./IA/{nom_ia}/models/{modele_ia}')
 
-
-
-    print(tabParam, modele_ia)
 
     # Exécuter le script Python dans l'environnement virtuel
     process = subprocess.Popen(tabParam, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
