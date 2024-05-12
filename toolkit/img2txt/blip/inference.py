@@ -6,7 +6,6 @@ from transformers import BlipProcessor, BlipForConditionalGeneration
 def launch_blip(path, img):
 
     save_path = path
-
     processor = BlipProcessor.from_pretrained(save_path)
     model = BlipForConditionalGeneration.from_pretrained(save_path)
 
@@ -44,14 +43,14 @@ def main():
     
     launch_group = parser.add_argument_group('Launch Options',
                                                argument_default=argparse.SUPPRESS)
-    launch_group.add_argument('-path', type=str, default="IA/blip/models/blip-image-captioning-base", dest='path',
+    launch_group.add_argument('-modele', type=str, default="IA/blip/models/blip-image-captioning-base", dest='model',
                                 help='Chemin du modèle')
     launch_group.add_argument('-img', type=str, default="outputs/txt2img-samples/samples/00008.png", dest='img',
                                 help='Chemin de l\'image en entrée')
     
     args = parser.parse_args()
 
-    launch_blip(args.path, args.img)
+    launch_blip(args.model, args.img)
 
 if __name__ == "__main__":
     main()

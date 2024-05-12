@@ -1,12 +1,13 @@
 import connexion
 import six
+import json
 import subprocess
 
 from swagger_server.models.img import Img  # noqa: E501
 from swagger_server import util
 
 
-def generation_par_ia(nom_categorie, nom_ia, modele_ia, nom_fichier_parametre=None):  # noqa: E501
+def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametre=None):  # noqa: E501
     """Génère du texte à partir de texte
 
     Génère du texte à partir de texte # noqa: E501
@@ -31,8 +32,34 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia, nom_fichier_parametre=No
     # Chemin vers le script Python à exécuter
     inference = f'./toolkit/{nom_categorie}/{nom_ia}/inference.py'
 
+    tabParam = [python_virtualenv, inference, 'launch']
+    nom_fichier = ""
+    if(nom_fichier_parametre == None):
+        nom_fichier = f'./toolkit/{nom_categorie}/{nom_ia}/param.json'
+    else:
+        nom_fichier = nom_fichier_parametre
+        print(nom_fichier)
+        nom_fichier = f'./toolkit/{nom_categorie}/{nom_ia}/param.json'
+    
+    paramFile = open(nom_fichier)
+    param = json.load(paramFile)
+
+    for p in param.keys():
+        tabParam.append(p)
+        print(p[0])
+        if param[p] != "modele_ia":
+            tabParam.append(param[p])
+        else:
+            tabParam.append(f'./IA/{nom_ia}/models/{modele_ia}')
+
+
+
+    print(tabParam, modele_ia)
+
     # Exécuter le script Python dans l'environnement virtuel
-    process = subprocess.Popen([python_virtualenv, inference, 'launch',"-path", f'IA/{nom_ia}/models/{modele_ia}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(tabParam, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    paramFile.close()
 
     # Attendre que le subprocess se termine et récupérer la sortie
     stdout, stderr = process.communicate()
