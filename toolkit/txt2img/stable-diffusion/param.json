@@ -1,5 +1,6 @@
 {
     "--prompt": "a professional photograph of an astronaut riding a horse",
+    "--outdir": "outputs/txt2img/stable-diffusion",
     "--ckpt": "modele_ia", 
     "--config": "IA/stable-diffusion/stablediffusion/configs/stable-diffusion/v2-inference-v.yaml",
     "--H": "512",
