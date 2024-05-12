@@ -3,6 +3,8 @@ import six
 import json
 import subprocess
 
+from os import listdir
+from os.path import isfile, join
 from swagger_server.models.img import Img  # noqa: E501
 from swagger_server import util
 
@@ -32,7 +34,7 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
     # Chemin vers le script Python à exécuter
     inference = f'./toolkit/{nom_categorie}/{nom_ia}/inference.py'
 
-    tabParam = [python_virtualenv, inference]
+    tab_param = [python_virtualenv, inference]
     nom_fichier = ""
     if(nom_fichier_parametre == None):
         nom_fichier = f'./toolkit/{nom_categorie}/{nom_ia}/param.json'
@@ -44,17 +46,17 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
 
     for p in param.keys():
         if p == param[p]:
-            tabParam.append(p)
+            tab_param.append(p)
         else:
-            tabParam.append(p)
+            tab_param.append(p)
             if param[p] != "modele_ia":
-                tabParam.append(param[p])
+                tab_param.append(param[p])
             else:
-                tabParam.append(f'./IA/{nom_ia}/models/{modele_ia}')
+                tab_param.append(f'./IA/{nom_ia}/models/{modele_ia}')
 
-    print(tabParam)
+    print(tab_param)
     # Exécuter le script Python dans l'environnement virtuel
-    process = subprocess.Popen(tabParam, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(tab_param, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     paramFile.close()
 
@@ -87,4 +89,15 @@ def get_resultat(nom_categorie, nom_ia=None, modele_ia=None):  # noqa: E501
 
     :rtype: Img
     """
-    return 'do some magic!'
+    liste_retour = []
+    chemin = f'outputs/{nom_categorie}/{nom_ia}'
+                
+    for fichier in listdir(chemin):
+        if isfile(join(f'outputs/{nom_categorie}/{nom_ia}', fichier)):
+            liste_retour.append(f'outputs/{nom_categorie}/{nom_ia}/{fichier}')
+        else:
+            for fichier_fils in listdir(chemin + "/" + fichier):
+                if isfile(join(f'outputs/{nom_categorie}/{nom_ia}/{fichier}', fichier_fils)):
+                    liste_retour.append(f'outputs/{nom_categorie}/{nom_ia}/{fichier}/{fichier_fils}')
+
+    return liste_retour
