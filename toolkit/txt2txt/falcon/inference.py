@@ -54,8 +54,8 @@ def main():
         inference.py launch  """)
 
     # Positional arguments
-    parser.add_argument('command', choices=['launch'],
-                        help='Specify the command')
+    # parser.add_argument('command', choices=['launch'],
+    #                     help='Specify the command')
     
     launch_group = parser.add_argument_group('Launch Options',
                                                argument_default=argparse.SUPPRESS)

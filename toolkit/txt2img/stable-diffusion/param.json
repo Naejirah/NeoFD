@@ -1,0 +1,9 @@
+{
+    "--prompt": "a professional photograph of an astronaut riding a horse",
+    "--ckpt": "modele_ia", 
+    "--config": "IA/stable-diffusion/stablediffusion/configs/stable-diffusion/v2-inference-v.yaml",
+    "--H": "512",
+    "--W": "512",
+    "--bf16": "--bf16",
+    "--device": "cuda"
+}
