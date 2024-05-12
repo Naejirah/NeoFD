@@ -93,13 +93,11 @@ def get_resultat(nom_categorie, nom_ia):  # noqa: E501
     chemin = f'outputs/{nom_categorie}/{nom_ia}'
                 
     for fichier in listdir(chemin):
-        dictionnaire_pour_json = {}
         if isfile(join(f'outputs/{nom_categorie}/{nom_ia}', fichier)):
-            dictionnaire_pour_json['img'] = f'outputs/{nom_categorie}/{nom_ia}/{fichier}'
-            
+            liste_retour.append(f'outputs/{nom_categorie}/{nom_ia}/{fichier}')
         else:
             for fichier_fils in listdir(chemin + "/" + fichier):
                 if isfile(join(f'outputs/{nom_categorie}/{nom_ia}/{fichier}', fichier_fils)):
-                    dictionnaire_pour_json['img'] = f'outputs/{nom_categorie}/{nom_ia}/{fichier}/{fichier_fils}'
-        liste_retour.append(dictionnaire_pour_json)
+                    liste_retour.append(f'outputs/{nom_categorie}/{nom_ia}/{fichier}/{fichier_fils}')
+
     return liste_retour
