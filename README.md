@@ -46,7 +46,7 @@ https://github.com/Stability-AI/stablediffusion?tab=readme-ov-file
 
 1. Lancement
 ```commandline
-IA\stable-diffusion\stable-diffusionEnv\Scripts\python .\toolkit\txt2img\stable-diffusion\inference.py --prompt "a professional photograph of an astronaut riding a horse" --ckpt "./IA/stablediffusion/models/v2-1_768-ema-pruned.ckpt" --config IA/stable-diffusion/stablediffusion/configs/stable-diffusion/v2-inference-v.yaml --H 512 --W 512 --bf16 --device cuda
+IA\stable-diffusion\stable-diffusionEnv\Scripts\python .\toolkit\txt2img\stable-diffusion\inference.py --prompt "a professional photograph of an astronaut riding a horse" --ckpt "./IA/stable-diffusion/models/v2-1_768-ema-pruned.ckpt" --config IA/stable-diffusion/stablediffusion/configs/stable-diffusion/v2-inference-v.yaml --H 512 --W 512 --bf16 --device cuda
 ``` 
 
 2. Résultat
