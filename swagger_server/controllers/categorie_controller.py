@@ -1,8 +1,7 @@
 import connexion
 import six
 
-from os import listdir, remove, symlink
-from shutil import rmtree
+from os import listdir, mkdir
 from os.path import isfile, exists
 from swagger_server.models.output import Output  # noqa: E501
 from swagger_server import util
@@ -18,7 +17,10 @@ def add_categorie(nom_categorie):  # noqa: E501
 
     :rtype: Output
     """
-    return 'do some magic!'
+    chemin = f'./toolkit/{nom_categorie}'
+    if(not exists(chemin)):
+        mkdir(chemin)
+    return {"output":chemin}
 
 
 def get_categorie():  # noqa: E501
