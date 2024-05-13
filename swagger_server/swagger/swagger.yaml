@@ -196,7 +196,7 @@ paths:
         "422":
           description: Validation exception
       x-openapi-router-controller: swagger_server.controllers.categorie_controller
-  /modele/{nomCategorie}/{nomIA}:
+  /modele/{nomIA}:
     get:
       tags:
       - Modele
@@ -204,14 +204,6 @@ paths:
       description: Add a new Output to the store
       operationId: get_modele
       parameters:
-      - name: nomCategorie
-        in: path
-        description: Nom de la catégorie
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       - name: nomIA
         in: path
         description: Nom de l'IA retourné par /IA/trouverParCategorie
@@ -235,7 +227,6 @@ paths:
         "422":
           description: Validation exception
       x-openapi-router-controller: swagger_server.controllers.modele_controller
-  /modele/{nomCategorie}/{nomIA}/{modeleIA}:
     post:
       tags:
       - Modele
@@ -243,14 +234,6 @@ paths:
       description: Ajoute un nouveau Modele d'IA
       operationId: add_modele
       parameters:
-      - name: nomCategorie
-        in: path
-        description: Nom de la catégorie
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       - name: nomIA
         in: path
         description: Nom de l'IA
@@ -259,14 +242,13 @@ paths:
         explode: false
         schema:
           type: string
-      - name: modeleIA
-        in: path
-        description: Modele de l'IA
+      requestBody:
+        description: Chemin absolu du modèle
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chemin_modele'
         required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       responses:
         "200":
           description: Successful operation
@@ -287,14 +269,6 @@ paths:
         \ Les noms des Modeles d'IA sont disponible via la méthode GET /modele/{nomIA}"
       operationId: del_modele
       parameters:
-      - name: nomCategorie
-        in: path
-        description: Nom de la catégorie
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       - name: nomIA
         in: path
         description: Nom de l'IA
@@ -304,11 +278,11 @@ paths:
         schema:
           type: string
       - name: modeleIA
-        in: path
+        in: query
         description: Modele de l'IA
         required: true
-        style: simple
-        explode: false
+        style: form
+        explode: true
         schema:
           type: string
       responses:
@@ -730,6 +704,13 @@ components:
           type: string
       example:
         output: output
+      xml:
+        name: '##default'
+    Chemin_modele:
+      type: object
+      properties:
+        chemin:
+          type: string
       xml:
         name: '##default'
   requestBodies:
