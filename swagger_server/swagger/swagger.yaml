@@ -44,8 +44,8 @@ paths:
       tags:
       - IA
       summary: Ajoute une nouvelle IA
-      description: Add a new Img to the store
-      operationId: add_img
+      description: Add a new Output to the store
+      operationId: add_output
       parameters:
       - name: nomIA
         in: query
@@ -74,11 +74,11 @@ paths:
           type: boolean
           default: false
       requestBody:
-        description: Create a new Img in the store
+        description: Create a new Output in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
         required: true
       responses:
         "200":
@@ -86,10 +86,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -101,7 +101,7 @@ paths:
       - IA
       summary: Trouve une IA pour répondre à un besoin
       description: Multiple status values can be provided with comma separated strings
-      operationId: find_imgs_by_status
+      operationId: find_outputs_by_status
       parameters:
       - name: Categorie
         in: query
@@ -111,7 +111,7 @@ paths:
         explode: true
         schema:
           type: string
-          default: txt2img;img2img
+          default: txt2Output;Output2Output
       responses:
         "200":
           description: successful operation
@@ -120,13 +120,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Img'
+                  $ref: '#/components/schemas/Output'
                 x-content-type: application/json
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Img'
+                  $ref: '#/components/schemas/Output'
         "400":
           description: Invalid status value
       x-openapi-router-controller: swagger_server.controllers.ia_controller
@@ -135,7 +135,7 @@ paths:
       tags:
       - Categorie
       summary: Ajoute un nouveau Modele d'IA
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: add_categorie
       parameters:
       - name: nomCategorie
@@ -147,17 +147,17 @@ paths:
         schema:
           type: string
       requestBody:
-        description: Create a new Img in the store
+        description: Create a new Output in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
         required: true
       responses:
         "200":
@@ -165,10 +165,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -179,7 +179,7 @@ paths:
       tags:
       - Categorie
       summary: Donne les catégories existantes
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: get_categorie
       responses:
         "200":
@@ -187,23 +187,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
           description: Validation exception
       x-openapi-router-controller: swagger_server.controllers.categorie_controller
-  /modele/{nomIA}:
+  /modele/{nomCategorie}/{nomIA}:
     get:
       tags:
       - Modele
       summary: Donne les Modeles de l'IA
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: get_modele
       parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la catégorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
       - name: nomIA
         in: path
         description: Nom de l'IA retourné par /IA/trouverParCategorie
@@ -218,67 +226,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Img'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Output'
+                x-content-type: application/json
         "400":
           description: Invalid input
         "422":
           description: Validation exception
       x-openapi-router-controller: swagger_server.controllers.modele_controller
+  /modele/{nomCategorie}/{nomIA}/{modeleIA}:
     post:
       tags:
       - Modele
       summary: Ajoute un nouveau Modele d'IA
-      description: Add a new Img to the store
+      description: Ajoute un nouveau Modele d'IA
       operationId: add_modele
       parameters:
-      - name: nomIA
+      - name: nomCategorie
         in: path
-        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        description: Nom de la catégorie
         required: true
         style: simple
         explode: false
         schema:
           type: string
-      requestBody:
-        description: Create a new Img in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Img'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Img'
-        required: true
-      responses:
-        "200":
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Img'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Img'
-        "400":
-          description: Invalid input
-        "422":
-          description: Validation exception
-      x-openapi-router-controller: swagger_server.controllers.modele_controller
-  /modele/{nomIA}/{modeleIA}:
-    delete:
-      tags:
-      - Modele
-      summary: Supprime un Modele de l'IA
-      description: "Les noms des IA sont disponible via la méthode GET /IA/trouverParCategorie.\
-        \ Les noms des Modeles d'IA sont disponible via la méthode GET /modele/{nomIA}"
-      operationId: del_modele
-      parameters:
       - name: nomIA
         in: path
         description: Nom de l'IA
@@ -289,7 +261,7 @@ paths:
           type: string
       - name: modeleIA
         in: path
-        description: Modele de l'IA à supprimer
+        description: Modele de l'IA
         required: true
         style: simple
         explode: false
@@ -301,10 +273,51 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
-            application/xml:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.modele_controller
+    delete:
+      tags:
+      - Modele
+      summary: Supprime un Modele de l'IA
+      description: "Les noms des IA sont disponible via la méthode GET /IA/trouverParCategorie.\
+        \ Les noms des Modeles d'IA sont disponible via la méthode GET /modele/{nomIA}"
+      operationId: del_modele
+      parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la catégorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: nomIA
+        in: path
+        description: Nom de l'IA
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: modeleIA
+        in: path
+        description: Modele de l'IA
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -315,7 +328,7 @@ paths:
       tags:
       - Installation
       summary: Retourne les fichiers d'installation d'une IA
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: get_fichier_installation
       parameters:
       - name: nomIA
@@ -340,10 +353,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -353,7 +366,7 @@ paths:
       tags:
       - Installation
       summary: Ajoute un nouveau Modele d'IA
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: ajout_fichier_installation
       parameters:
       - name: nomIA
@@ -381,17 +394,17 @@ paths:
         schema:
           type: string
       requestBody:
-        description: Create a new Img in the store
+        description: Create a new Output in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
         required: true
       responses:
         "200":
@@ -399,10 +412,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -413,7 +426,7 @@ paths:
       tags:
       - Installation
       summary: Lancement d'une installation d'une IA
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: lancement_fichier_installation
       parameters:
       - name: nomIA
@@ -438,10 +451,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -451,7 +464,7 @@ paths:
       tags:
       - Installation
       summary: Supprime un fichier d'installation
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: suppr_fichier_installation
       parameters:
       - name: nomIA
@@ -476,10 +489,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -490,7 +503,7 @@ paths:
       tags:
       - Installation
       summary: Retourne les fichiers de Generation
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: get_fichier_lancement
       parameters:
       - name: nomIA
@@ -515,10 +528,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -528,7 +541,7 @@ paths:
       tags:
       - Installation
       summary: Ajoute un fichier d'installation
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: ajout_fichier_lancement
       parameters:
       - name: nomIA
@@ -556,17 +569,17 @@ paths:
         schema:
           type: string
       requestBody:
-        description: Create a new Img in the store
+        description: Create a new Output in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Img'
+              $ref: '#/components/schemas/Output'
         required: true
       responses:
         "200":
@@ -574,10 +587,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -587,7 +600,7 @@ paths:
       tags:
       - Installation
       summary: Supprime un fichier de Generation
-      description: Add a new Img to the store
+      description: Add a new Output to the store
       operationId: suppr_fichier_lancement
       parameters:
       - name: nomIA
@@ -604,10 +617,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -623,7 +636,7 @@ paths:
       parameters:
       - name: nomCategorie
         in: path
-        description: ID of Img to update
+        description: Nom de la catégorie
         required: true
         style: simple
         explode: false
@@ -631,7 +644,7 @@ paths:
           type: string
       - name: nomIA
         in: path
-        description: ID of Img to update
+        description: Nom de l'IA
         required: true
         style: simple
         explode: false
@@ -639,18 +652,10 @@ paths:
           type: string
       - name: modeleIA
         in: path
-        description: ID of Img to update
+        description: Modele de l'IA
         required: true
         style: simple
         explode: false
-        schema:
-          type: string
-      - name: nomFichierParametre
-        in: query
-        description: Fichier de paramètre pour le lancement de l'IA au format json
-        required: false
-        style: form
-        explode: true
         schema:
           type: string
       responses:
@@ -659,7 +664,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
+                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -670,12 +675,12 @@ paths:
       tags:
       - Generation
       summary: Accède aux résultats d'une IA
-      description: Génère du texte à partir de texte
+      description: Accède aux résultats d'une IA
       operationId: get_resultat
       parameters:
       - name: nomCategorie
         in: path
-        description: ID of Img to update
+        description: Nom de la catégorie
         required: true
         style: simple
         explode: false
@@ -683,7 +688,7 @@ paths:
           type: string
       - name: nomIA
         in: query
-        description: ID of Img to update
+        description: Nom de l'IA
         required: true
         style: form
         explode: true
@@ -697,7 +702,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Img'
+                  $ref: '#/components/schemas/Output'
                 x-content-type: application/json
         "400":
           description: Invalid input
@@ -718,23 +723,23 @@ components:
           type: string
       xml:
         name: '##default'
-    Img:
+    Output:
       type: object
       properties:
-        base64:
+        output:
           type: string
       example:
-        base64: base64
+        output: output
       xml:
         name: '##default'
   requestBodies:
-    Img:
-      description: Img object that needs to be added to the store
+    Output:
+      description: Output object that needs to be added to the store
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Img'
+            $ref: '#/components/schemas/Output'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Img'
+            $ref: '#/components/schemas/Output'
 

@@ -5,7 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from swagger_server.models.img import Img  # noqa: E501
+from swagger_server.models.output import Output  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -17,10 +17,10 @@ class TestInstallationController(BaseTestCase):
 
         Ajoute un nouveau Modele d'IA
         """
-        body = Img()
+        body = Output()
         query_string = [('plateforme', 'plateforme_example'),
                         ('fichiers', 'fichiers_example')]
-        data = dict(base64='base64_example')
+        data = dict(output='output_example')
         response = self.client.open(
             '/api/v1/ia/fichier_installation/{nomIA}'.format(nom_ia='nom_ia_example'),
             method='POST',
@@ -36,10 +36,10 @@ class TestInstallationController(BaseTestCase):
 
         Ajoute un fichier d'installation
         """
-        body = Img()
+        body = Output()
         query_string = [('plateforme', 'plateforme_example'),
                         ('fichier', 'fichier_example')]
-        data = dict(base64='base64_example')
+        data = dict(output='output_example')
         response = self.client.open(
             '/api/v1/ia/fichier_generation/{nomIA}'.format(nom_ia='nom_ia_example'),
             method='POST',

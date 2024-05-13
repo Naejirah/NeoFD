@@ -3,8 +3,8 @@ import six
 import json
 import subprocess
 
-from os import listdir
-from os.path import isfile, join
+from os import listdir, mkdir
+from os.path import isfile, join, exists
 from swagger_server.models.img import Img  # noqa: E501
 from swagger_server import util
 
@@ -14,16 +14,14 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
 
     Génère du texte à partir de texte # noqa: E501
 
-    :param nom_categorie: ID of Img to update
+    :param nom_categorie: Nom de la catégorie
     :type nom_categorie: str
-    :param nom_ia: ID of Img to update
+    :param nom_ia: Nom de l&#x27;IA
     :type nom_ia: str
-    :param modele_ia: ID of Img to update
+    :param modele_ia: Modele de l&#x27;IA
     :type modele_ia: str
-    :param nom_fichier_parametre: Fichier de paramètre pour le lancement de l&#x27;IA au format json
-    :type nom_fichier_parametre: strstr
 
-    :rtype: Img
+    :rtype: Output
     """
 
     
@@ -72,32 +70,51 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
     print("Sortie standard :", stdout.decode())
     print("Erreur standard :", stderr.decode())
 
-    return stdout.decode()
+    chemin = f'outputs/{nom_categorie}/{nom_ia}'
+    fichier = "00000.txt"
+    if(nom_categorie.split("2")[-1] == "txt"):
+        print("Write inside a txt file")
+        if(exists(chemin+'/'+fichier)):
+            fichier = listdir(chemin)[-1]
+            num_fichier = str(int(fichier[:-4])+1)
+            fichier = '0'*(5-len(num_fichier)) + num_fichier + ".txt"
+        else:
+            mkdir(f'outputs/{nom_categorie}')
+            mkdir(chemin)
+        with open(chemin+'/'+fichier, 'w') as f:
+            f.write(stdout.decode())
+    else:
+        fichier = listdir(chemin)[-1]
+        if(not isfile(chemin+'/'+fichier)):
+            fichier = listdir(chemin+'/'+fichier)[-1]
+
+    dictionnaire_retour = { "output": f'{chemin}/{fichier}'}
+    return dictionnaire_retour
 
 
 def get_resultat(nom_categorie, nom_ia):  # noqa: E501
-    """Accède aux résultats d'une IA
+    """Accède aux résultats d&#x27;une IA
 
-    Génère du texte à partir de texte # noqa: E501
+    Accède aux résultats d&#x27;une IA # noqa: E501
 
-    :param nom_categorie: ID of Img to update
+    :param nom_categorie: Nom de la catégorie
     :type nom_categorie: str
-    :param nom_ia: ID of Img to update
+    :param nom_ia: Nom de l&#x27;IA
     :type nom_ia: str
-    :param modele_ia: ID of Img to update
-    :type modele_ia: str
 
-    :rtype: Img
+    :rtype: List[Output]
     """
     liste_retour = []
     chemin = f'outputs/{nom_categorie}/{nom_ia}'
                 
     for fichier in listdir(chemin):
+        dictionnaire_pour_json = {}
         if isfile(join(f'outputs/{nom_categorie}/{nom_ia}', fichier)):
-            liste_retour.append(f'outputs/{nom_categorie}/{nom_ia}/{fichier}')
+            dictionnaire_pour_json['img'] = f'outputs/{nom_categorie}/{nom_ia}/{fichier}'
+            
         else:
             for fichier_fils in listdir(chemin + "/" + fichier):
                 if isfile(join(f'outputs/{nom_categorie}/{nom_ia}/{fichier}', fichier_fils)):
-                    liste_retour.append(f'outputs/{nom_categorie}/{nom_ia}/{fichier}/{fichier_fils}')
-
+                    dictionnaire_pour_json['img'] = f'outputs/{nom_categorie}/{nom_ia}/{fichier}/{fichier_fils}'
+        liste_retour.append(dictionnaire_pour_json)
     return liste_retour
