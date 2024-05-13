@@ -1,7 +1,8 @@
 import connexion
 import six
 
-from os import listdir, mkdir
+from os import listdir, mkdir, remove
+from shutil import rmtree
 from os.path import isfile, join, exists
 from swagger_server.models.output import Output  # noqa: E501
 from swagger_server import util
@@ -38,7 +39,16 @@ def del_modele(nom_categorie, nom_ia, modele_ia):  # noqa: E501
 
     :rtype: Output
     """
-    return 'do some magic!'
+
+    retour = {"output":""}
+    chemin = f'IA/{nom_ia}/models/{modele_ia}'
+    if(exists(chemin)):
+        if(isfile(chemin)):
+            remove(chemin)
+        else:    
+            rmtree(chemin)
+        retour["output"] = chemin
+    return retour
 
 
 def get_modele(nom_categorie, nom_ia):  # noqa: E501
