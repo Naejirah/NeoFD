@@ -653,7 +653,6 @@ paths:
         explode: true
         schema:
           type: string
-          format: binary
       responses:
         "200":
           description: Successful operation
@@ -685,15 +684,7 @@ paths:
       - name: nomIA
         in: query
         description: ID of Img to update
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: modeleIA
-        in: query
-        description: ID of Img to update
-        required: false
+        required: true
         style: form
         explode: true
         schema:
@@ -704,10 +695,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Img'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Img'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Img'
+                x-content-type: application/json
         "400":
           description: Invalid input
         "422":

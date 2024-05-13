@@ -30,8 +30,7 @@ class TestGenerationController(BaseTestCase):
 
         Accède aux résultats d'une IA
         """
-        query_string = [('nom_ia', 'nom_ia_example'),
-                        ('modele_ia', 'modele_ia_example')]
+        query_string = [('nom_ia', 'nom_ia_example')]
         response = self.client.open(
             '/api/v1/ia/resultat/{nomCategorie}'.format(nom_categorie='nom_categorie_example'),
             method='GET',

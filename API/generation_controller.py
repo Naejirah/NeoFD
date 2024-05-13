@@ -3,8 +3,8 @@ import six
 import json
 import subprocess
 
-from os import listdir, mkdir
-from os.path import isfile, join, exists
+from os import listdir
+from os.path import isfile, join
 from swagger_server.models.img import Img  # noqa: E501
 from swagger_server import util
 
@@ -72,26 +72,7 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
     print("Sortie standard :", stdout.decode())
     print("Erreur standard :", stderr.decode())
 
-    chemin = f'outputs/{nom_categorie}/{nom_ia}'
-    fichier = "00000.txt"
-    if(nom_categorie.split("2")[-1] == "txt"):
-        print("Write inside a txt file")
-        if(exists(chemin+'/'+fichier)):
-            fichier = listdir(chemin)[-1]
-            num_fichier = str(int(fichier[:-4])+1)
-            fichier = '0'*(5-len(num_fichier)) + num_fichier + ".txt"
-        else:
-            mkdir(f'outputs/{nom_categorie}')
-            mkdir(chemin)
-        with open(chemin+'/'+fichier, 'w') as f:
-            f.write(stdout.decode())
-    else:
-        fichier = listdir(chemin)[-1]
-        if(not isfile(chemin+'/'+fichier)):
-            fichier = listdir(chemin+'/'+fichier)[-1]
-
-    dictionnaire_retour = { "output": f'{chemin}/{fichier}'}
-    return dictionnaire_retour
+    return stdout.decode()
 
 
 def get_resultat(nom_categorie, nom_ia):  # noqa: E501
@@ -112,13 +93,11 @@ def get_resultat(nom_categorie, nom_ia):  # noqa: E501
     chemin = f'outputs/{nom_categorie}/{nom_ia}'
                 
     for fichier in listdir(chemin):
-        dictionnaire_pour_json = {}
         if isfile(join(f'outputs/{nom_categorie}/{nom_ia}', fichier)):
-            dictionnaire_pour_json['img'] = f'outputs/{nom_categorie}/{nom_ia}/{fichier}'
-            
+            liste_retour.append(f'outputs/{nom_categorie}/{nom_ia}/{fichier}')
         else:
             for fichier_fils in listdir(chemin + "/" + fichier):
                 if isfile(join(f'outputs/{nom_categorie}/{nom_ia}/{fichier}', fichier_fils)):
-                    dictionnaire_pour_json['img'] = f'outputs/{nom_categorie}/{nom_ia}/{fichier}/{fichier_fils}'
-        liste_retour.append(dictionnaire_pour_json)
+                    liste_retour.append(f'outputs/{nom_categorie}/{nom_ia}/{fichier}/{fichier_fils}')
+
     return liste_retour
