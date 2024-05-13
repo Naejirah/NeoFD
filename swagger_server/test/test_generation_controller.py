@@ -5,7 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from swagger_server.models.img import Img  # noqa: E501
+from swagger_server.models.output import Output  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -17,11 +17,9 @@ class TestGenerationController(BaseTestCase):
 
         Génère du texte à partir de texte
         """
-        query_string = [('nom_fichier_parametre', 'nom_fichier_parametre_example')]
         response = self.client.open(
             '/api/v1/ia/generation/{nomCategorie}/{nomIA}/{modeleIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example', modele_ia='modele_ia_example'),
-            method='POST',
-            query_string=query_string)
+            method='POST')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

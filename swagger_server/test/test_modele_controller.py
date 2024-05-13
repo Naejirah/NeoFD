@@ -5,7 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from swagger_server.models.img import Img  # noqa: E501
+from swagger_server.models.output import Output  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -17,14 +17,9 @@ class TestModeleController(BaseTestCase):
 
         Ajoute un nouveau Modele d'IA
         """
-        body = Img()
-        data = dict(base64='base64_example')
         response = self.client.open(
-            '/api/v1/modele/{nomIA}'.format(nom_ia='nom_ia_example'),
-            method='POST',
-            data=json.dumps(body),
-            data=data,
-            content_type='application/json')
+            '/api/v1/modele/{nomCategorie}/{nomIA}/{modeleIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example', modele_ia='modele_ia_example'),
+            method='POST')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -34,7 +29,7 @@ class TestModeleController(BaseTestCase):
         Supprime un Modele de l'IA
         """
         response = self.client.open(
-            '/api/v1/modele/{nomIA}/{modeleIA}'.format(nom_ia='nom_ia_example', modele_ia='modele_ia_example'),
+            '/api/v1/modele/{nomCategorie}/{nomIA}/{modeleIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example', modele_ia='modele_ia_example'),
             method='DELETE')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -45,7 +40,7 @@ class TestModeleController(BaseTestCase):
         Donne les Modeles de l'IA
         """
         response = self.client.open(
-            '/api/v1/modele/{nomIA}'.format(nom_ia='nom_ia_example'),
+            '/api/v1/modele/{nomCategorie}/{nomIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

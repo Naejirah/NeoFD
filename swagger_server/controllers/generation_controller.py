@@ -14,16 +14,14 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
 
     Génère du texte à partir de texte # noqa: E501
 
-    :param nom_categorie: ID of Img to update
+    :param nom_categorie: Nom de la catégorie
     :type nom_categorie: str
-    :param nom_ia: ID of Img to update
+    :param nom_ia: Nom de l&#x27;IA
     :type nom_ia: str
-    :param modele_ia: ID of Img to update
+    :param modele_ia: Modele de l&#x27;IA
     :type modele_ia: str
-    :param nom_fichier_parametre: Fichier de paramètre pour le lancement de l&#x27;IA au format json
-    :type nom_fichier_parametre: strstr
 
-    :rtype: Img
+    :rtype: Output
     """
 
     
@@ -95,18 +93,16 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
 
 
 def get_resultat(nom_categorie, nom_ia):  # noqa: E501
-    """Accède aux résultats d'une IA
+    """Accède aux résultats d&#x27;une IA
 
-    Génère du texte à partir de texte # noqa: E501
+    Accède aux résultats d&#x27;une IA # noqa: E501
 
-    :param nom_categorie: ID of Img to update
+    :param nom_categorie: Nom de la catégorie
     :type nom_categorie: str
-    :param nom_ia: ID of Img to update
+    :param nom_ia: Nom de l&#x27;IA
     :type nom_ia: str
-    :param modele_ia: ID of Img to update
-    :type modele_ia: str
 
-    :rtype: Img
+    :rtype: List[Output]
     """
     liste_retour = []
     chemin = f'outputs/{nom_categorie}/{nom_ia}'

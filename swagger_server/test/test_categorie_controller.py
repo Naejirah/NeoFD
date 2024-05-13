@@ -5,7 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from swagger_server.models.img import Img  # noqa: E501
+from swagger_server.models.output import Output  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -17,8 +17,8 @@ class TestCategorieController(BaseTestCase):
 
         Ajoute un nouveau Modele d'IA
         """
-        body = Img()
-        data = dict(base64='base64_example')
+        body = Output()
+        data = dict(output='output_example')
         response = self.client.open(
             '/api/v1/categorie/{nomCategorie}'.format(nom_categorie='nom_categorie_example'),
             method='POST',
