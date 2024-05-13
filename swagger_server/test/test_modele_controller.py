@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
+from swagger_server.models.chemin_modele import CheminModele  # noqa: E501
 from swagger_server.models.output import Output  # noqa: E501
 from swagger_server.test import BaseTestCase
 
@@ -17,9 +18,12 @@ class TestModeleController(BaseTestCase):
 
         Ajoute un nouveau Modele d'IA
         """
+        body = CheminModele()
         response = self.client.open(
-            '/api/v1/modele/{nomCategorie}/{nomIA}/{modeleIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example', modele_ia='modele_ia_example'),
-            method='POST')
+            '/api/v1/modele/{nomIA}'.format(nom_ia='nom_ia_example'),
+            method='POST',
+            data=json.dumps(body),
+            content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -28,9 +32,11 @@ class TestModeleController(BaseTestCase):
 
         Supprime un Modele de l'IA
         """
+        query_string = [('modele_ia', 'modele_ia_example')]
         response = self.client.open(
-            '/api/v1/modele/{nomCategorie}/{nomIA}/{modeleIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example', modele_ia='modele_ia_example'),
-            method='DELETE')
+            '/api/v1/modele/{nomIA}'.format(nom_ia='nom_ia_example'),
+            method='DELETE',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -40,7 +46,7 @@ class TestModeleController(BaseTestCase):
         Donne les Modeles de l'IA
         """
         response = self.client.open(
-            '/api/v1/modele/{nomCategorie}/{nomIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example'),
+            '/api/v1/modele/{nomIA}'.format(nom_ia='nom_ia_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

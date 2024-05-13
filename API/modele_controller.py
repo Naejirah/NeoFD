@@ -1,46 +1,52 @@
 import connexion
 import six
 
-from os import listdir, mkdir
-from os.path import isfile, join, exists
+import subprocess
+from os import listdir, remove, symlink
+from shutil import rmtree
+from os.path import isfile, exists
+from swagger_server.models.chemin_modele import CheminModele  # noqa: E501
 from swagger_server.models.output import Output  # noqa: E501
 from swagger_server import util
 
-
-def add_modele(body, nom_ia, modele_ia):  # noqa: E501
+def add_modele(body, nom_ia):  # noqa: E501
     """Ajoute un nouveau Modele d&#x27;IA
 
     Ajoute un nouveau Modele d&#x27;IA # noqa: E501
 
-    :param body: Create a new Output in the store
+    :param body: Chemin absolu du modèle
     :type body: dict | bytes
     :param nom_ia: Nom de l&#x27;IA
     :type nom_ia: str
-    :param modele_ia: Modele de l&#x27;IA
-    :type modele_ia: str
 
     :rtype: Output
     """
-    if connexion.request.is_json:
-        body = Output.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    modele_ia = body["chemin"]
+    retour = {"output":""}
+    nom_modele = modele_ia.split("/")[-1]
+    chemin_dest = f'./IA/{nom_ia}/models/{nom_modele}'
+
+    if(not exists(chemin_dest)):
+        process = subprocess.Popen(["./apiEnv/Scripts/python", "./toolkit/symlink.py", "-src", modele_ia, "-dest", chemin_dest], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        # Attendre que le subprocess se termine et récupérer la sortie
+        stdout, stderr = process.communicate()
+
+        retour["output"] = chemin_dest
+
+        # Vérifier si le subprocess s'est terminé avec succès
+        if process.returncode == 0:
+            print("Le subprocess s'est terminé avec succès.")
+        else:
+            print("Le subprocess a échoué avec le code de sortie :", process.returncode)
+
+        print("Sortie standard :", stdout.decode())
+        print("Erreur standard :", stderr.decode())
+    else:
+        retour["output"] = chemin_dest
 
 
-def add_modele(output, nom_ia, modele_ia):  # noqa: E501
-    """Ajoute un nouveau Modele d&#x27;IA
-
-    Ajoute un nouveau Modele d&#x27;IA # noqa: E501
-
-    :param output: 
-    :type output: str
-    :param nom_ia: Nom de l&#x27;IA
-    :type nom_ia: str
-    :param modele_ia: Modele de l&#x27;IA
-    :type modele_ia: str
-
-    :rtype: Output
-    """
-    return 'do some magic!'
+    return retour
 
 
 def del_modele(nom_ia, modele_ia):  # noqa: E501
@@ -55,7 +61,15 @@ def del_modele(nom_ia, modele_ia):  # noqa: E501
 
     :rtype: Output
     """
-    return 'do some magic!'
+    retour = {"output":""}
+    chemin = f'IA/{nom_ia}/models/{modele_ia}'
+    if(exists(chemin)):
+        if(isfile(chemin)):
+            remove(chemin)
+        else:    
+            rmtree(chemin)
+        retour["output"] = chemin
+    return retour
 
 
 def get_modele(nom_ia):  # noqa: E501
@@ -66,11 +80,10 @@ def get_modele(nom_ia):  # noqa: E501
     :param nom_ia: Nom de l&#x27;IA retourné par /IA/trouverParCategorie
     :type nom_ia: str
 
-    :rtype: Output
+    :rtype: List[Output]
     """
-
     liste_retour = []
-    chemin = f'outputs/{nom_categorie}/{nom_ia}'
+    chemin = f'IA/{nom_ia}/models'
     if(exists(chemin)):
         for fichier in listdir(chemin):
             liste_retour.append({"output":fichier})
