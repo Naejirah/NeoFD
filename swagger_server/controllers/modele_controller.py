@@ -25,23 +25,25 @@ def add_modele(body, nom_ia):  # noqa: E501
     retour = {"output":""}
     nom_modele = modele_ia.split("/")[-1]
     chemin_dest = f'./IA/{nom_ia}/models/{nom_modele}'
-    print(chemin_dest)
-    # "-Src", modele_ia, "-Dest", chemin_dest
-    process = subprocess.Popen(["./apiEnv/Scripts/python", "./toolkit/symlink.py", "-src", modele_ia, "-dest", chemin_dest], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    # Attendre que le subprocess se termine et récupérer la sortie
-    stdout, stderr = process.communicate()
+    if(not exists(chemin_dest)):
+        process = subprocess.Popen(["./apiEnv/Scripts/python", "./toolkit/symlink.py", "-src", modele_ia, "-dest", chemin_dest], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    retour["output"] = chemin_dest
+        # Attendre que le subprocess se termine et récupérer la sortie
+        stdout, stderr = process.communicate()
 
-    # Vérifier si le subprocess s'est terminé avec succès
-    if process.returncode == 0:
-        print("Le subprocess s'est terminé avec succès.")
+        retour["output"] = chemin_dest
+
+        # Vérifier si le subprocess s'est terminé avec succès
+        if process.returncode == 0:
+            print("Le subprocess s'est terminé avec succès.")
+        else:
+            print("Le subprocess a échoué avec le code de sortie :", process.returncode)
+
+        print("Sortie standard :", stdout.decode())
+        print("Erreur standard :", stderr.decode())
     else:
-        print("Le subprocess a échoué avec le code de sortie :", process.returncode)
-
-    print("Sortie standard :", stdout.decode())
-    print("Erreur standard :", stderr.decode())
+        retour["output"] = chemin_dest
 
 
     return retour
