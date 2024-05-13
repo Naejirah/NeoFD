@@ -15,16 +15,11 @@ class TestCategorieController(BaseTestCase):
     def test_add_categorie(self):
         """Test case for add_categorie
 
-        Ajoute un nouveau Modele d'IA
+        Ajoute une nouvelle catégorie pour les IA
         """
-        body = Output()
-        data = dict(output='output_example')
         response = self.client.open(
             '/api/v1/categorie/{nomCategorie}'.format(nom_categorie='nom_categorie_example'),
-            method='POST',
-            data=json.dumps(body),
-            data=data,
-            content_type='application/json')
+            method='POST')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

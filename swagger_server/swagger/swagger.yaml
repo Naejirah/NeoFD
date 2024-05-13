@@ -134,39 +134,23 @@ paths:
     post:
       tags:
       - Categorie
-      summary: Ajoute un nouveau Modele d'IA
-      description: Add a new Output to the store
+      summary: Ajoute une nouvelle catégorie pour les IA
+      description: Ajoute une nouvelle catégorie pour les IA
       operationId: add_categorie
       parameters:
       - name: nomCategorie
         in: path
-        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        description: Nom de la categorie
         required: true
         style: simple
         explode: false
         schema:
           type: string
-      requestBody:
-        description: Create a new Output in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Output'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Output'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Output'
-        required: true
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Output'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Output'
         "400":
@@ -179,7 +163,7 @@ paths:
       tags:
       - Categorie
       summary: Donne les catégories existantes
-      description: Add a new Output to the store
+      description: Donne les catégories existantes
       operationId: get_categorie
       responses:
         "200":
@@ -187,10 +171,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Output'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Output'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Output'
+                x-content-type: application/json
         "400":
           description: Invalid input
         "422":
