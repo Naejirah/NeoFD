@@ -66,7 +66,7 @@ def get_fichier_installation(nom_ia):  # noqa: E501
 
     :rtype: Output
     """
-    return 'do some magic!'
+    return {"output": f'./IA/{nom_ia}/install'}
 
 
 def lancement_fichier_installation(nom_ia, plateforme):  # noqa: E501
