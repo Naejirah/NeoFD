@@ -1,6 +1,8 @@
 import connexion
 import six
 
+from os import listdir, mkdir, remove
+from os.path import isfile, exists
 from swagger_server.models.input_fichier_generation import InputFichierGeneration  # noqa: E501
 from swagger_server.models.input_fichier_installation import InputFichierInstallation  # noqa: E501
 from swagger_server.models.output import Output  # noqa: E501
@@ -96,7 +98,14 @@ def suppr_fichier_installation(nom_ia, plateforme):  # noqa: E501
 
     :rtype: Output
     """
-    return 'do some magic!'
+    retour = {"output": ""}
+    chemin = f'./IA/{nom_ia}/install'
+    if(exists(chemin)):
+        for fichier in listdir(chemin):
+            if(f"install_{plateforme}" in fichier):
+                remove(chemin+'/'+fichier)
+                retour["output"] = chemin+'/'+fichier
+    return retour
 
 
 def suppr_fichier_lancement(nom_ia):  # noqa: E501
