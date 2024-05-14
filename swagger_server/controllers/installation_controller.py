@@ -104,7 +104,28 @@ def lancement_fichier_installation(nom_ia, plateforme):  # noqa: E501
 
     :rtype: Output
     """
-    return 'do some magic!'
+    retour = {"output":""}
+    chemin = f'./IA/{nom_ia}/install'
+    
+    existFichier = False
+    for fichier in listdir(chemin):
+        if(f"install_{plateforme}" in fichier):
+            existFichier = True
+
+    if(existFichier):
+        process = ""
+        if(plateforme == "windows"):
+            subprocess([f"./IA/{nom_ia}/install/install_{plateforme}.ps1"])
+        
+        stdout, stderr = process.communicate()
+        if process.returncode == 0:
+            retour["output"] = f"./IA/{nom_ia}"
+        else:
+            print("Le subprocess a échoué avec le code de sortie :", process.returncode)
+            print(stdout.decode())
+            print(stderr.decode())
+
+    return retour
 
 
 def suppr_fichier_installation(nom_ia, plateforme):  # noqa: E501
