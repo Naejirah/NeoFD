@@ -1,6 +1,7 @@
 import connexion
 import six
 
+import subprocess
 from os import listdir, mkdir, remove
 from os.path import isfile, exists
 from swagger_server.models.input_fichier_generation import InputFichierGeneration  # noqa: E501
@@ -8,6 +9,13 @@ from swagger_server.models.input_fichier_installation import InputFichierInstall
 from swagger_server.models.output import Output  # noqa: E501
 from swagger_server import util
 
+def send_symlink(src, dest):
+    process = subprocess.Popen(["./apiEnv/Scripts/python", "./toolkit/symlink.py", "-src", src, "-dest", dest], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    if process.returncode == 0:
+        print("Le subprocess s'est terminé avec succès.")
+    else:
+        print("Le subprocess a échoué avec le code de sortie :", process.returncode)
 
 def add_fichier_installation(body, plateforme, nom_ia):  # noqa: E501
     """Ajoute un nouveau Modele d&#x27;IA
@@ -23,9 +31,22 @@ def add_fichier_installation(body, plateforme, nom_ia):  # noqa: E501
 
     :rtype: Output
     """
-    if connexion.request.is_json:
-        body = InputFichierInstallation.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    retour = {"output":""}
+    chemin = f'./IA/{nom_ia}/install'
+    if(not exists(chemin)):
+        mkdir(chemin)
+    
+    existFichier = False
+    for fichier in listdir(chemin):
+        if(f"install_{plateforme}" in fichier):
+            existFichier = True
+    
+    if(not existFichier):
+        if(plateforme == "windows"):
+            send_symlink(body['install_chemin_absolu'], chemin+f"/install_{plateforme}.ps1")
+            retour["output"] = chemin+f"/install_{plateforme}.ps1"
+
+    return retour
 
 
 def ajout_fichier_lancement(body, nom_ia):  # noqa: E501
