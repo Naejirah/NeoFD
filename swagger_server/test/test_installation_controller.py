@@ -5,6 +5,8 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
+from swagger_server.models.input_fichier_generation import InputFichierGeneration  # noqa: E501
+from swagger_server.models.input_fichier_installation import InputFichierInstallation  # noqa: E501
 from swagger_server.models.output import Output  # noqa: E501
 from swagger_server.test import BaseTestCase
 
@@ -12,20 +14,17 @@ from swagger_server.test import BaseTestCase
 class TestInstallationController(BaseTestCase):
     """InstallationController integration test stubs"""
 
-    def test_ajout_fichier_installation(self):
-        """Test case for ajout_fichier_installation
+    def test_add_fichier_installation(self):
+        """Test case for add_fichier_installation
 
         Ajoute un nouveau Modele d'IA
         """
-        body = Output()
-        query_string = [('plateforme', 'plateforme_example'),
-                        ('fichiers', 'fichiers_example')]
-        data = dict(output='output_example')
+        body = InputFichierInstallation()
+        query_string = [('plateforme', 'plateforme_example')]
         response = self.client.open(
             '/api/v1/ia/fichier_installation/{nomIA}'.format(nom_ia='nom_ia_example'),
             method='POST',
             data=json.dumps(body),
-            data=data,
             content_type='application/json',
             query_string=query_string)
         self.assert200(response,
@@ -34,19 +33,25 @@ class TestInstallationController(BaseTestCase):
     def test_ajout_fichier_lancement(self):
         """Test case for ajout_fichier_lancement
 
-        Ajoute un fichier d'installation
+        Ajoute un fichier de generation
         """
-        body = Output()
-        query_string = [('plateforme', 'plateforme_example'),
-                        ('fichier', 'fichier_example')]
-        data = dict(output='output_example')
+        body = InputFichierGeneration()
         response = self.client.open(
             '/api/v1/ia/fichier_generation/{nomIA}'.format(nom_ia='nom_ia_example'),
             method='POST',
             data=json.dumps(body),
-            data=data,
-            content_type='application/json',
-            query_string=query_string)
+            content_type='application/json')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_get_fichier_generation(self):
+        """Test case for get_fichier_generation
+
+        Retourne les fichiers de Generation
+        """
+        response = self.client.open(
+            '/api/v1/ia/fichier_generation/{nomIA}'.format(nom_ia='nom_ia_example'),
+            method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -55,24 +60,9 @@ class TestInstallationController(BaseTestCase):
 
         Retourne les fichiers d'installation d'une IA
         """
-        query_string = [('plateforme', 'plateforme_example')]
         response = self.client.open(
             '/api/v1/ia/fichier_installation/{nomIA}'.format(nom_ia='nom_ia_example'),
-            method='GET',
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_get_fichier_lancement(self):
-        """Test case for get_fichier_lancement
-
-        Retourne les fichiers de Generation
-        """
-        query_string = [('plateforme', 'plateforme_example')]
-        response = self.client.open(
-            '/api/v1/ia/fichier_generation/{nomIA}'.format(nom_ia='nom_ia_example'),
-            method='GET',
-            query_string=query_string)
+            method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

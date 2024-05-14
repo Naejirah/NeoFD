@@ -44,8 +44,8 @@ paths:
       tags:
       - IA
       summary: Ajoute une nouvelle IA
-      description: Add a new Output to the store
-      operationId: add_output
+      description: Ajoute une nouvelle IA
+      operationId: add_ia
       parameters:
       - name: nomIA
         in: query
@@ -74,20 +74,17 @@ paths:
           type: boolean
           default: false
       requestBody:
-        description: Create a new Output in the store
+        description: Parametres pour ajouter une IA
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Output'
+              $ref: '#/components/schemas/InputIA'
         required: true
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Output'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Output'
         "400":
@@ -100,8 +97,8 @@ paths:
       tags:
       - IA
       summary: Trouve une IA pour répondre à un besoin
-      description: Multiple status values can be provided with comma separated strings
-      operationId: find_outputs_by_status
+      description: Trouve une IA pour répondre à un besoin
+      operationId: get_ia
       parameters:
       - name: Categorie
         in: query
@@ -111,7 +108,7 @@ paths:
         explode: true
         schema:
           type: string
-          default: txt2Output;Output2Output
+          default: txt2txt
       responses:
         "200":
           description: successful operation
@@ -122,11 +119,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Output'
                 x-content-type: application/json
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Output'
         "400":
           description: Invalid status value
       x-openapi-router-controller: swagger_server.controllers.ia_controller
@@ -185,7 +177,7 @@ paths:
       tags:
       - Modele
       summary: Donne les Modeles de l'IA
-      description: Add a new Output to the store
+      description: Donne les Modeles de l'IA
       operationId: get_modele
       parameters:
       - name: nomIA
@@ -286,7 +278,7 @@ paths:
       tags:
       - Installation
       summary: Retourne les fichiers d'installation d'une IA
-      description: Add a new Output to the store
+      description: Retourne les fichiers d'installation d'une IA
       operationId: get_fichier_installation
       parameters:
       - name: nomIA
@@ -297,22 +289,11 @@ paths:
         explode: false
         schema:
           type: string
-      - name: plateforme
-        in: query
-        description: Nom de l'IA retourné par /IA/trouverParCategorie
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Output'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Output'
         "400":
@@ -324,8 +305,8 @@ paths:
       tags:
       - Installation
       summary: Ajoute un nouveau Modele d'IA
-      description: Add a new Output to the store
-      operationId: ajout_fichier_installation
+      description: Ajoute un nouveau Modele d'IA
+      operationId: add_fichier_installation
       parameters:
       - name: nomIA
         in: path
@@ -343,35 +324,18 @@ paths:
         explode: true
         schema:
           type: string
-      - name: fichiers
-        in: query
-        description: Un fichier setup.py (si hugging face) ou un fichier shell + requires.txt
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       requestBody:
         description: Create a new Output in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Output'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Output'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Output'
+              $ref: '#/components/schemas/InputFichierInstallation'
         required: true
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Output'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Output'
         "400":
@@ -384,7 +348,7 @@ paths:
       tags:
       - Installation
       summary: Lancement d'une installation d'une IA
-      description: Add a new Output to the store
+      description: Lancement d'une installation d'une IA
       operationId: lancement_fichier_installation
       parameters:
       - name: nomIA
@@ -397,7 +361,7 @@ paths:
           type: string
       - name: plateforme
         in: path
-        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        description: Système d'exploitation
         required: true
         style: simple
         explode: false
@@ -410,9 +374,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Output'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Output'
         "400":
           description: Invalid input
         "422":
@@ -422,7 +383,7 @@ paths:
       tags:
       - Installation
       summary: Supprime un fichier d'installation
-      description: Add a new Output to the store
+      description: Supprime un fichier d'installation
       operationId: suppr_fichier_installation
       parameters:
       - name: nomIA
@@ -435,7 +396,7 @@ paths:
           type: string
       - name: plateforme
         in: path
-        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        description: système d'exploitation
         required: true
         style: simple
         explode: false
@@ -446,9 +407,6 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Output'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Output'
         "400":
@@ -461,8 +419,8 @@ paths:
       tags:
       - Installation
       summary: Retourne les fichiers de Generation
-      description: Add a new Output to the store
-      operationId: get_fichier_lancement
+      description: Retourne les fichiers de Generation
+      operationId: get_fichier_generation
       parameters:
       - name: nomIA
         in: path
@@ -472,22 +430,11 @@ paths:
         explode: false
         schema:
           type: string
-      - name: plateforme
-        in: query
-        description: Nom de l'IA retourné par /IA/trouverParCategorie
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Output'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Output'
         "400":
@@ -498,8 +445,8 @@ paths:
     post:
       tags:
       - Installation
-      summary: Ajoute un fichier d'installation
-      description: Add a new Output to the store
+      summary: Ajoute un fichier de generation
+      description: Ajoute un fichier de generation et de paramètre
       operationId: ajout_fichier_lancement
       parameters:
       - name: nomIA
@@ -510,43 +457,18 @@ paths:
         explode: false
         schema:
           type: string
-      - name: plateforme
-        in: query
-        description: Nom de l'IA retourné par /IA/trouverParCategorie
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: fichier
-        in: query
-        description: Un fichier inference.py
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       requestBody:
         description: Create a new Output in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Output'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Output'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Output'
+              $ref: '#/components/schemas/InputFichierGeneration'
         required: true
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Output'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Output'
         "400":
@@ -558,7 +480,7 @@ paths:
       tags:
       - Installation
       summary: Supprime un fichier de Generation
-      description: Add a new Output to the store
+      description: Supprime un fichier de Generation
       operationId: suppr_fichier_lancement
       parameters:
       - name: nomIA
@@ -574,9 +496,6 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Output'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Output'
         "400":
@@ -697,14 +616,44 @@ components:
           type: string
       xml:
         name: '##default'
+    InputIA:
+      type: object
+      properties:
+        install_windows_chemin_absolu:
+          type: string
+        install_mac_chemin_absolu:
+          type: string
+        install_linux_chemin_absolu:
+          type: string
+        inference_chemin_absolu:
+          type: string
+        param_chemin_absolu:
+          type: string
+        venv_chemin_absolu:
+          type: string
+      xml:
+        name: '##default'
+    InputFichierInstallation:
+      type: object
+      properties:
+        install_chemin_absolu:
+          type: string
+      xml:
+        name: '##default'
+    InputFichierGeneration:
+      type: object
+      properties:
+        inference_chemin_absolu:
+          type: string
+        param_chemin_absolu:
+          type: string
+      xml:
+        name: '##default'
   requestBodies:
     Output:
       description: Output object that needs to be added to the store
       content:
         application/json:
-          schema:
-            $ref: '#/components/schemas/Output'
-        application/xml:
           schema:
             $ref: '#/components/schemas/Output'
 

@@ -9,7 +9,7 @@ from swagger_server.models.img import Img  # noqa: E501
 from swagger_server import util
 
 
-def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametre=None):  # noqa: E501
+def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
     """Génère du texte à partir de texte
 
     Génère du texte à partir de texte # noqa: E501
@@ -23,8 +23,6 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
 
     :rtype: Output
     """
-
-    
     # Chemin vers l'interpréteur Python dans l'environnement virtuel
     python_virtualenv = f'./IA/{nom_ia}/{nom_ia}Env/Scripts/python'  # Pour Windows
     # python_virtualenv = f'./IA/{nom_ia}/{nom_ia}Env/bin/python'  # Pour macOS/Linux
@@ -33,11 +31,8 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia:str, nom_fichier_parametr
     inference = f'./toolkit/{nom_categorie}/{nom_ia}/inference.py'
 
     tab_param = [python_virtualenv, inference]
-    nom_fichier = ""
-    if(nom_fichier_parametre == None):
-        nom_fichier = f'./toolkit/{nom_categorie}/{nom_ia}/param.json'
-    else:
-        nom_fichier = f'./toolkit/{nom_categorie}/{nom_ia}/param.json'
+    nom_fichier = f'./toolkit/{nom_categorie}/{nom_ia}/param.json'
+
     
     paramFile = open(nom_fichier)
     param = json.load(paramFile)
