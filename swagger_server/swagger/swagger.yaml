@@ -1,0 +1,683 @@
+openapi: 3.0.3
+info:
+  title: NeoFD
+  description: API pour utiliser les IA dans le cadre du projet NeoFD
+  termsOfService: http://swagger.io/terms/
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: "1.1"
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://neoFD/api/v1
+tags:
+- name: IA
+  description: Paramétrage des IA
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+- name: Categorie
+  description: Catégories des IA
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+- name: Modele
+  description: Paramétrage des Modeles d'IA
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+- name: Installation
+  description: Installation des fichiers nécessaires à une IA
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+- name: Generation
+  description: Lancement d'une Generation par une IA
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+paths:
+  /ia:
+    post:
+      tags:
+      - IA
+      summary: Ajoute une nouvelle IA
+      description: Ajoute une nouvelle IA
+      operationId: add_ia
+      parameters:
+      - name: nomIA
+        in: query
+        description: Nom de l'IA
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: categorie
+        in: query
+        description: Nom de la catégorie
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: utilisable
+        in: query
+        description: Si l'IA est déjà installé mettre true et le chemin de la virtualEnv
+          dans le body sinon false et remplir au moins un champs install du body
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        description: Parametres pour ajouter une IA
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputIA'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.ia_controller
+  /ia/trouverParCategorie:
+    get:
+      tags:
+      - IA
+      summary: Trouve une IA pour répondre à un besoin
+      description: Trouve une IA pour répondre à un besoin
+      operationId: get_ia
+      parameters:
+      - name: Categorie
+        in: query
+        description: Status values that need to be considered for filter
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: txt2txt
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Output'
+                x-content-type: application/json
+        "400":
+          description: Invalid status value
+      x-openapi-router-controller: swagger_server.controllers.ia_controller
+  /categorie/{nomCategorie}:
+    post:
+      tags:
+      - Categorie
+      summary: Ajoute une nouvelle catégorie pour les IA
+      description: Ajoute une nouvelle catégorie pour les IA
+      operationId: add_categorie
+      parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la categorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.categorie_controller
+  /categorie:
+    get:
+      tags:
+      - Categorie
+      summary: Donne les catégories existantes
+      description: Donne les catégories existantes
+      operationId: get_categorie
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Output'
+                x-content-type: application/json
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.categorie_controller
+  /modele/{nomIA}:
+    get:
+      tags:
+      - Modele
+      summary: Donne les Modeles de l'IA
+      description: Donne les Modeles de l'IA
+      operationId: get_modele
+      parameters:
+      - name: nomIA
+        in: path
+        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Output'
+                x-content-type: application/json
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.modele_controller
+    post:
+      tags:
+      - Modele
+      summary: Ajoute un nouveau Modele d'IA
+      description: Ajoute un nouveau Modele d'IA
+      operationId: add_modele
+      parameters:
+      - name: nomIA
+        in: path
+        description: Nom de l'IA
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Chemin absolu du modèle
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chemin_modele'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.modele_controller
+    delete:
+      tags:
+      - Modele
+      summary: Supprime un Modele de l'IA
+      description: "Les noms des IA sont disponible via la méthode GET /IA/trouverParCategorie.\
+        \ Les noms des Modeles d'IA sont disponible via la méthode GET /modele/{nomIA}"
+      operationId: del_modele
+      parameters:
+      - name: nomIA
+        in: path
+        description: Nom de l'IA
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: modeleIA
+        in: query
+        description: Modele de l'IA
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.modele_controller
+  /ia/fichier_installation/{nomIA}:
+    get:
+      tags:
+      - Installation
+      summary: Retourne les fichiers d'installation d'une IA
+      description: Retourne les fichiers d'installation d'une IA
+      operationId: get_fichier_installation
+      parameters:
+      - name: nomIA
+        in: path
+        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.installation_controller
+    post:
+      tags:
+      - Installation
+      summary: Ajoute un nouveau Modele d'IA
+      description: Ajoute un nouveau Modele d'IA
+      operationId: add_fichier_installation
+      parameters:
+      - name: nomIA
+        in: path
+        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: plateforme
+        in: query
+        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        description: Create a new Output in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputFichierInstallation'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.installation_controller
+  /ia/fichier_installation/{nomIA}/{plateforme}:
+    post:
+      tags:
+      - Installation
+      summary: Lancement d'une installation d'une IA
+      description: Lancement d'une installation d'une IA
+      operationId: lancement_fichier_installation
+      parameters:
+      - name: nomIA
+        in: path
+        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: plateforme
+        in: path
+        description: Système d'exploitation
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.installation_controller
+    delete:
+      tags:
+      - Installation
+      summary: Supprime un fichier d'installation
+      description: Supprime un fichier d'installation
+      operationId: suppr_fichier_installation
+      parameters:
+      - name: nomIA
+        in: path
+        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: plateforme
+        in: path
+        description: système d'exploitation
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.installation_controller
+  /ia/fichier_generation/{nomCategorie}/{nomIA}:
+    get:
+      tags:
+      - Installation
+      summary: Retourne les fichiers de Generation
+      description: Retourne les fichiers de Generation
+      operationId: get_fichier_generation
+      parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la categorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: nomIA
+        in: path
+        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.installation_controller
+    post:
+      tags:
+      - Installation
+      summary: Ajoute un fichier de generation
+      description: Ajoute un fichier de generation et de paramètre
+      operationId: ajout_fichier_lancement
+      parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la categorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: nomIA
+        in: path
+        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Create a new Output in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputFichierGeneration'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.installation_controller
+    delete:
+      tags:
+      - Installation
+      summary: Supprime un fichier de Generation
+      description: Supprime un fichier de Generation
+      operationId: suppr_fichier_lancement
+      parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la categorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: nomIA
+        in: path
+        description: Nom de l'IA retourné par /IA/trouverParCategorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.installation_controller
+  /ia/generation/{nomCategorie}/{nomIA}/{modeleIA}:
+    post:
+      tags:
+      - Generation
+      summary: Génèration par ia
+      description: Génèration par ia
+      operationId: generation_par_ia
+      parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la catégorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: nomIA
+        in: path
+        description: Nom de l'IA
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: modeleIA
+        in: path
+        description: Modele de l'IA
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Output'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.generation_controller
+  /ia/resultat/{nomCategorie}:
+    get:
+      tags:
+      - Generation
+      summary: Accède aux résultats d'une IA
+      description: Accède aux résultats d'une IA
+      operationId: get_resultat
+      parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la catégorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: nomIA
+        in: query
+        description: Nom de l'IA
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Output'
+                x-content-type: application/json
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.generation_controller
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+    Output:
+      type: object
+      properties:
+        output:
+          type: string
+      example:
+        output: output
+      xml:
+        name: '##default'
+    Chemin_modele:
+      type: object
+      properties:
+        chemin:
+          type: string
+      xml:
+        name: '##default'
+    InputIA:
+      type: object
+      properties:
+        install_windows_chemin_absolu:
+          type: string
+        install_mac_chemin_absolu:
+          type: string
+        install_linux_chemin_absolu:
+          type: string
+        inference_chemin_absolu:
+          type: string
+        param_chemin_absolu:
+          type: string
+        venv_chemin_absolu:
+          type: string
+      xml:
+        name: '##default'
+    InputFichierInstallation:
+      type: object
+      properties:
+        install_chemin_absolu:
+          type: string
+      xml:
+        name: '##default'
+    InputFichierGeneration:
+      type: object
+      properties:
+        inference_chemin_absolu:
+          type: string
+        param_chemin_absolu:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    Output:
+      description: Output object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Output'
+

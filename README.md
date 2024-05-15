@@ -1,5 +1,9 @@
 # Projet-Master
 
+![Image swagger](./doc/swagger.png)
+![Image swagger](./doc/swagger_mod.png)
+![Image swagger](./doc/swagger_gen.png)
+
 ## Installation du projet
 
 1. Windows
@@ -12,18 +16,29 @@
     ./install_windows
     ``` 
 
+## Lancement API
+
+1. Windows
+```commandline
+.\apiEnv\Scripts\python -m swagger_server
+``` 
+
+Accessible via http://localhost:8080/api/v1/ui/
+La liste des WS est disponible via l'API 
+
 ## Falcon
 
 IA pour la génération de texte
 
 1. Lancement
 ```commandline
-IA\falcon\falconEnv\Scripts\python ./toolkit/inference_falcon7b.py
+IA\falcon\falconEnv\Scripts\python ./toolkit/txt2txt/falcon/inference.py
 ``` 
+ou via l'appel WS
 
 2. Résultat
 
-Les résultats sont visibles dans l'interpréteur de commande
+Les résultats sont disponibles via ou via l'appel WS GET /ia/resultat/{nomCategorie}
 
 ## BLIP
 
@@ -31,12 +46,13 @@ IA pour la génération de texte à partir d'une image
 
 1. Lancement
 ```commandline
-IA\blip\blipEnv\Scripts\python ./toolkit/inference_blip.py
+IA\blip\blipEnv\Scripts\python ./toolkit/img2txt/blip/inference.py
 ``` 
+ou via l'appel WS
 
 2. Résultat
 
-Les résultats sont visibles dans l'interpréteur de commande
+Les résultats sont disponibles via ou via l'appel WS GET /ia/resultat/{nomCategorie}
 
 
 ## Stable-diffusion
@@ -46,12 +62,14 @@ https://github.com/Stability-AI/stablediffusion?tab=readme-ov-file
 
 1. Lancement
 ```commandline
-IA\stable-diffusion\stableEnv\Scripts\python IA/stable-diffusion/stablediffusion/scripts/txt2img.py --prompt "a professional photograph of an astronaut riding a horse" --ckpt [ckpt] --config IA/stable-diffusion/stablediffusion/configs/stable-diffusion/v2-inference-v.yaml --H 512 --W 512 --bf16 --device cuda
+IA\stable-diffusion\stable-diffusionEnv\Scripts\python .\toolkit\txt2img\stable-diffusion\inference.py --prompt "a professional photograph of an astronaut riding a horse" --ckpt "./IA/stable-diffusion/models/v2-1_768-ema-pruned.ckpt" --config IA/stable-diffusion/stablediffusion/configs/stable-diffusion/v2-inference-v.yaml --H 512 --W 512 --bf16 --device cuda
 ``` 
+ou via l'appel WS
 
 2. Résultat
 
-Les résultats sont visibles dans outputs/
+Les résultats sont disponibles via ou via l'appel WS GET /ia/resultat/{nomCategorie}
+
 
 ## Liens importants :
 <ul>

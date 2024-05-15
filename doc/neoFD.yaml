@@ -1,0 +1,685 @@
+openapi: 3.0.3
+info:
+  title: NeoFD
+  description: |-
+    API pour utiliser les IA dans le cadre du projet NeoFD
+  termsOfService: http://swagger.io/terms/
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: "1.1"
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://neoFD/api/v1
+tags:
+  - name: IA
+    description: Paramétrage des IA
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+      
+  - name: Categorie
+    description: Catégories des IA
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io #get post Delete
+  
+  - name: Modele
+    description: Paramétrage des Modeles d'IA #par IA
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  
+  - name: Installation
+    description: Installation des fichiers nécessaires à une IA
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+      
+  - name: Generation
+    description: Lancement d'une Generation par une IA # par besoin
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  
+paths:
+  /ia:
+    post:
+      tags:
+        - IA
+      summary: Ajoute une nouvelle IA
+      description: Add a new Img to the store
+      operationId: addImg
+      parameters:
+        - name: nomIA
+          in: query
+          description: Nom de l'IA
+          required: true
+          schema:
+            type: string 
+        - name: categorie
+          in: query
+          description: Nom de la catégorie
+          required: true
+          schema:
+            type: string 
+        - name: utilisable
+          in: query
+          description: Si l'IA est déjà installé mettre true et le chemin de la virtualEnv dans le body sinon false et remplir au moins un champs install du body
+          required: true
+          schema:
+            type: boolean 
+            default: false
+      requestBody:
+        description: Create a new Img in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Img' # mettre install_path_WIN cheminVirtualEnv chemin utilisation
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+          
+  /ia/trouverParCategorie:
+    get:
+      tags:
+        - IA
+      summary: Trouve une IA pour répondre à un besoin
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findImgsByStatus
+      parameters:
+        - name: Categorie
+          in: query
+          description: Status values that need to be considered for filter
+          required: true
+          schema:
+            type: string
+            default: txt2img;img2img
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid status value
+  
+  /categorie/{nomCategorie}:
+    post:
+      tags:
+        - Categorie
+      summary: Ajoute un nouveau Modele d'IA
+      description: Add a new Img to the store
+      operationId: addCategorie
+      parameters:
+        - name: nomCategorie
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new Img in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Img'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Img'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Img'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+  
+  /categorie:
+    get:
+      tags:
+        - Categorie
+      summary: Donne les catégories existantes
+      description: Add a new Img to the store
+      operationId: getCategorie
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+          
+  /modele/{nomIA}:
+    post:
+      tags:
+        - Modele
+      summary: Ajoute un nouveau Modele d'IA
+      description: Add a new Img to the store
+      operationId: addModele
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new Img in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Img'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Img'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Img'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    get:
+      tags:
+        - Modele
+      summary: Donne les Modeles de l'IA
+      description: Add a new Img to the store
+      operationId: getModele
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+          
+  /modele/{nomIA}/{modeleIA}:
+    delete:
+      tags:
+        - Modele
+      summary: Supprime un Modele de l'IA
+      description: Les noms des IA sont disponible via la méthode GET /IA/trouverParCategorie. Les noms des Modeles d'IA sont disponible via la méthode GET /modele/{nomIA}
+      operationId: delModele
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA 
+          required: true
+          schema:
+            type: string
+        - name: modeleIA
+          in: path
+          description: Modele de l'IA à supprimer
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+  
+  /ia/fichier_installation/{nomIA}:
+    post:
+      tags:
+        - Installation
+      summary: Ajoute un nouveau Modele d'IA
+      description: Add a new Img to the store
+      operationId: ajoutFichierInstallation
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: query
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: fichiers
+          in: query
+          description: Un fichier setup.py (si hugging face) ou un fichier shell + requires.txt
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new Img in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Img'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Img'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Img'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    get:
+      tags:
+        - Installation
+      summary: Retourne les fichiers d'installation d'une IA
+      description: Add a new Img to the store
+      operationId: getFichierInstallation
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: query
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+          
+  /ia/fichier_installation/{nomIA}/{plateforme}:
+    delete:
+      tags:
+        - Installation
+      summary: Supprime un fichier d'installation
+      description: Add a new Img to the store
+      operationId: supprFichierInstallation
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    post:
+      tags:
+        - Installation
+      summary: Lancement d'une installation d'une IA
+      description: Add a new Img to the store
+      operationId: lancementFichierInstallation
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+          
+          
+  /ia/fichier_generation/{nomIA}:
+    post:
+      tags:
+        - Installation
+      summary: Ajoute un fichier d'installation
+      description: Add a new Img to the store
+      operationId: ajoutFichierLancement
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: query
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: fichier
+          in: query
+          description: Un fichier inference.py
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new Img in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Img'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Img'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Img'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    get:
+      tags:
+        - Installation
+      summary: Retourne les fichiers de Generation
+      description: Add a new Img to the store
+      operationId: getFichierLancement
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+        - name: plateforme
+          in: query
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    delete:
+      tags:
+        - Installation
+      summary: Supprime un fichier de Generation
+      description: Add a new Img to the store
+      operationId: supprFichierLancement
+      parameters:
+        - name: nomIA
+          in: path
+          description: Nom de l'IA retourné par /IA/trouverParCategorie
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+  
+
+  /ia/generation/{nomCategorie}/{nomIA}/{modeleIA}:
+    post:
+      tags:
+        - Generation
+      summary: Génère du texte à partir de texte
+      description: Génère du texte à partir de texte
+      operationId: generationParIA
+      parameters:
+        - name: nomCategorie
+          in: path
+          description: ID of Img to update
+          required: true
+          schema:
+            type: string
+        - name: nomIA
+          in: path
+          description: ID of Img to update
+          required: true
+          schema:
+            type: string
+        - name: modeleIA
+          in: path
+          description: ID of Img to update
+          required: true
+          schema:
+            type: string
+        - name: nomFichierParametre
+          in: query
+          description: Fichier de paramètre pour le lancement de l'IA au format json
+          required: false
+          schema:
+            type: string
+            format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+    
+  /ia/resultat/{nomCategorie}:
+    get:
+      tags:
+        - Generation
+      summary: Accède aux résultats d'une IA
+      description: Génère du texte à partir de texte
+      operationId: getResultat
+      parameters:
+        - name: nomCategorie
+          in: path
+          description: ID of Img to update
+          required: true
+          schema:
+            type: string
+        - name: nomIA
+          in: query
+          description: ID of Img to update
+          required: false
+          schema:
+            type: string
+        - name: modeleIA
+          in: query
+          description: ID of Img to update
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Img'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Img'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+          
+            
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+    Img:
+      type: object
+      properties:
+        base64:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    Img:
+      description: Img object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Img'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Img'
