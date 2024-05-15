@@ -17,7 +17,6 @@ def send_symlink(src, dest):
     else:
         print("Le subprocess a échoué avec le code de sortie :", process.returncode)
 
-
 def add_fichier_installation(body, plateforme, nom_ia):  # noqa: E501
     """Ajoute un nouveau Modele d&#x27;IA
 
@@ -50,15 +49,13 @@ def add_fichier_installation(body, plateforme, nom_ia):  # noqa: E501
     return retour
 
 
-def ajout_fichier_lancement(body, nom_categorie, nom_ia):  # noqa: E501
+def ajout_fichier_lancement(body, nom_ia):  # noqa: E501
     """Ajoute un fichier de generation
 
     Ajoute un fichier de generation et de paramètre # noqa: E501
 
     :param body: Create a new Output in the store
     :type body: dict | bytes
-    :param nom_categorie: Nom de la categorie
-    :type nom_categorie: str
     :param nom_ia: Nom de l&#x27;IA retourné par /IA/trouverParCategorie
     :type nom_ia: str
 
@@ -69,19 +66,17 @@ def ajout_fichier_lancement(body, nom_categorie, nom_ia):  # noqa: E501
     return 'do some magic!'
 
 
-def get_fichier_generation(nom_categorie, nom_ia):  # noqa: E501
+def get_fichier_generation(nom_ia):  # noqa: E501
     """Retourne les fichiers de Generation
 
     Retourne les fichiers de Generation # noqa: E501
 
-    :param nom_categorie: Nom de la categorie
-    :type nom_categorie: str
     :param nom_ia: Nom de l&#x27;IA retourné par /IA/trouverParCategorie
     :type nom_ia: str
 
     :rtype: Output
     """
-    return {"output": f'./toolkit/{nom_categorie}/{nom_ia}'}
+    return 'do some magic!'
 
 
 def get_fichier_installation(nom_ia):  # noqa: E501
@@ -155,13 +150,11 @@ def suppr_fichier_installation(nom_ia, plateforme):  # noqa: E501
     return retour
 
 
-def suppr_fichier_lancement(nom_categorie, nom_ia):  # noqa: E501
+def suppr_fichier_lancement(nom_ia):  # noqa: E501
     """Supprime un fichier de Generation
 
     Supprime un fichier de Generation # noqa: E501
 
-    :param nom_categorie: Nom de la categorie
-    :type nom_categorie: str
     :param nom_ia: Nom de l&#x27;IA retourné par /IA/trouverParCategorie
     :type nom_ia: str
 

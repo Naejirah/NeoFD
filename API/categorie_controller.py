@@ -6,7 +6,6 @@ from os.path import isfile, exists
 from swagger_server.models.output import Output  # noqa: E501
 from swagger_server import util
 
-
 def add_categorie(nom_categorie):  # noqa: E501
     """Ajoute une nouvelle catégorie pour les IA
 

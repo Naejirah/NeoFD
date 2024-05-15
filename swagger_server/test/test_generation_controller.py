@@ -15,7 +15,7 @@ class TestGenerationController(BaseTestCase):
     def test_generation_par_ia(self):
         """Test case for generation_par_ia
 
-        Génère du texte à partir de texte
+        Génèration par ia
         """
         response = self.client.open(
             '/api/v1/ia/generation/{nomCategorie}/{nomIA}/{modeleIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example', modele_ia='modele_ia_example'),

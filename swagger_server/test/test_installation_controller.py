@@ -37,7 +37,7 @@ class TestInstallationController(BaseTestCase):
         """
         body = InputFichierGeneration()
         response = self.client.open(
-            '/api/v1/ia/fichier_generation/{nomIA}'.format(nom_ia='nom_ia_example'),
+            '/api/v1/ia/fichier_generation/{nomCategorie}/{nomIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example'),
             method='POST',
             data=json.dumps(body),
             content_type='application/json')
@@ -50,7 +50,7 @@ class TestInstallationController(BaseTestCase):
         Retourne les fichiers de Generation
         """
         response = self.client.open(
-            '/api/v1/ia/fichier_generation/{nomIA}'.format(nom_ia='nom_ia_example'),
+            '/api/v1/ia/fichier_generation/{nomCategorie}/{nomIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -94,7 +94,7 @@ class TestInstallationController(BaseTestCase):
         Supprime un fichier de Generation
         """
         response = self.client.open(
-            '/api/v1/ia/fichier_generation/{nomIA}'.format(nom_ia='nom_ia_example'),
+            '/api/v1/ia/fichier_generation/{nomCategorie}/{nomIA}'.format(nom_categorie='nom_categorie_example', nom_ia='nom_ia_example'),
             method='DELETE')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
