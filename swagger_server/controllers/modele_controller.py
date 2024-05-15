@@ -1,6 +1,3 @@
-import connexion
-import six
-
 import subprocess
 from os import listdir, remove, symlink
 from shutil import rmtree
