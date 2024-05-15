@@ -146,15 +146,14 @@ def lancement_fichier_installation(nom_ia, plateforme):  # noqa: E501
     if(existFichier):
         process = ""
         if(plateforme == "windows"):
-            subprocess([f"./IA/{nom_ia}/install/install_{plateforme}.ps1"])
+            process = subprocess.Popen(["powershell.exe",f'./IA/{nom_ia}/install/install_{plateforme}.ps1'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
-        stdout, stderr = process.communicate()
+        stdout,stderr = process.communicate()
         if process.returncode == 0:
             retour["output"] = f"./IA/{nom_ia}"
         else:
             print("Le subprocess a échoué avec le code de sortie :", process.returncode)
-            print(stdout.decode())
-            print(stderr.decode())
+
 
     return retour
 
