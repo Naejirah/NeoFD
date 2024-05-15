@@ -9,6 +9,7 @@ from swagger_server.models.chemin_modele import CheminModele  # noqa: E501
 from swagger_server.models.output import Output  # noqa: E501
 from swagger_server import util
 
+
 def add_modele(body, nom_ia):  # noqa: E501
     """Ajoute un nouveau Modele d&#x27;IA
 
@@ -75,7 +76,7 @@ def del_modele(nom_ia, modele_ia):  # noqa: E501
 def get_modele(nom_ia):  # noqa: E501
     """Donne les Modeles de l&#x27;IA
 
-    Add a new Output to the store # noqa: E501
+    Donne les Modeles de l&#x27;IA # noqa: E501
 
     :param nom_ia: Nom de l&#x27;IA retourné par /IA/trouverParCategorie
     :type nom_ia: str

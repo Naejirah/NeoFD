@@ -414,7 +414,7 @@ paths:
         "422":
           description: Validation exception
       x-openapi-router-controller: swagger_server.controllers.installation_controller
-  /ia/fichier_generation/{nomIA}:
+  /ia/fichier_generation/{nomCategorie}/{nomIA}:
     get:
       tags:
       - Installation
@@ -422,6 +422,14 @@ paths:
       description: Retourne les fichiers de Generation
       operationId: get_fichier_generation
       parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la categorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
       - name: nomIA
         in: path
         description: Nom de l'IA retourné par /IA/trouverParCategorie
@@ -449,6 +457,14 @@ paths:
       description: Ajoute un fichier de generation et de paramètre
       operationId: ajout_fichier_lancement
       parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la categorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
       - name: nomIA
         in: path
         description: Nom de l'IA retourné par /IA/trouverParCategorie
@@ -483,6 +499,14 @@ paths:
       description: Supprime un fichier de Generation
       operationId: suppr_fichier_lancement
       parameters:
+      - name: nomCategorie
+        in: path
+        description: Nom de la categorie
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
       - name: nomIA
         in: path
         description: Nom de l'IA retourné par /IA/trouverParCategorie
@@ -507,8 +531,8 @@ paths:
     post:
       tags:
       - Generation
-      summary: Génère du texte à partir de texte
-      description: Génère du texte à partir de texte
+      summary: Génèration par ia
+      description: Génèration par ia
       operationId: generation_par_ia
       parameters:
       - name: nomCategorie

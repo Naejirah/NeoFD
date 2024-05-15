@@ -10,9 +10,9 @@ from swagger_server import util
 
 
 def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
-    """Génère du texte à partir de texte
+    """Génèration par ia
 
-    Génère du texte à partir de texte # noqa: E501
+    Génèration par ia # noqa: E501
 
     :param nom_categorie: Nom de la catégorie
     :type nom_categorie: str
