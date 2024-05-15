@@ -65,9 +65,29 @@ def ajout_fichier_lancement(body, nom_categorie, nom_ia):  # noqa: E501
 
     :rtype: Output
     """
-    if connexion.request.is_json:
-        body = InputFichierGeneration.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    retour = {"output":""}
+    chemin = f'./toolkit/{nom_categorie}/{nom_ia}'
+    if(not exists(chemin)):
+        mkdir(chemin)
+    
+    existInference = False
+    existParam = False
+    for fichier in listdir(chemin):
+        if(f"inference" in fichier):
+            existInference = True
+        if(f"param" in fichier):
+            existParam = True   
+    try:
+        if(existInference and exists(body["inference_chemin_absolu"])):
+            send_symlink(body["inference_chemin_absolu"], chemin+'/inference.py')
+
+        if(existInference and exists(body["inference_chemin_absolu"])):
+            send_symlink(body["inference_chemin_absolu"], chemin+'/inference.py')
+        
+        retour["output"] = chemin
+    except:
+        retour["output"] = "error"
+    return retour
 
 
 def get_fichier_generation(nom_categorie, nom_ia):  # noqa: E501
@@ -176,6 +196,7 @@ def suppr_fichier_lancement(nom_categorie, nom_ia):  # noqa: E501
     retour = {"output": ""}
     chemin = f'./toolkit/{nom_categorie}/{nom_ia}'
     if(exists(chemin)):
-        rmtree(chemin)
+        for fichier in listdir(chemin):
+            remove(chemin+'/'+fichier)
         retour["output"] = chemin
     return retour
