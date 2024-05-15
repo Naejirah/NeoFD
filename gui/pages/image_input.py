@@ -19,7 +19,7 @@ class BaseImageInput(tk.Frame):
         super().__init__(*args, **kwargs)
 
         self.filepath = ''
-        row = 2
+        row = 3
 
         container = tk.Frame(self)
         # Nb column = weight + 1

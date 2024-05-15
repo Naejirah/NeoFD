@@ -1,33 +1,67 @@
 import tkinter as tk
+from functools import partial
+import requests
 
 from pages.txt2img_page import Txt2ImgPage
 from pages.img2img_page import Img2ImgPage
 from pages.txt2txt_page import Txt2TxtPage
 from pages.img2txt_page import Img2TxtPage
 
+from pages.api_page import BaseAPIPage
+
 RESOLUTION = '1440x810'
 
 
-class App(tk.Frame):
-    def view_txt2img(self):
-        txt2img = Txt2ImgPage(self)
-        txt2img.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
-        txt2img.show()
+class App(BaseAPIPage):
+    # INPUT_TYPE_AVAILABLE = {
+    #     'txt': BaseTextInput,
+    #     # 'img': Img2ImgPage
+    #     'img': BaseImageInput
+    # }
+    # OUTPUT_TYPE_AVAILABLE = {
+    #     'txt': BaseTextOutput,
+    #     # 'img': Img2ImgPage
+    #     # 'img': BaseImageOutput
+    # }
 
-    def view_img2img(self):
-        img2img = Img2ImgPage(self)
-        img2img.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
-        img2img.show()
+    TYPE_AVAILABLE = {
+        'txt2img': Txt2ImgPage,
+        'img2img': Img2ImgPage,
+        'txt2txt': Txt2TxtPage,
+        'img2txt': Img2TxtPage,
+    }
 
-    def view_txt2txt(self):
-        txt2txt = Txt2TxtPage(self)
-        txt2txt.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
-        txt2txt.show()
+    def get_api_url(self):
+        return super().get_api_url() + 'categorie'
 
-    def view_img2txt(self):
-        img2txt = Img2TxtPage(self)
-        img2txt.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
-        img2txt.show()
+    def get_categories(self):
+        url = self.get_api_url()
+        response = self.call_api(requests.get(url, headers={}))
+        if response is not None:
+            categories = [category['output'] for category in response]
+            return categories
+        return response
+
+    def view_category(self, name):
+        category_types = name.split('2')
+        # input_type = category_types[0]
+        # output_type = category_types[1]
+        # if input_type in self.INPUT_TYPE_AVAILABLE.keys() and output_type in self.OUTPUT_TYPE_AVAILABLE.keys():
+        #     input_page = self.INPUT_TYPE_AVAILABLE[input_type]
+        #     output_page = self.OUTPUT_TYPE_AVAILABLE[output_type]
+        #     print(input_page, output_page, 'ON VERIFIE')
+        #     page = BaseInput2Output(input_page, output_page)
+        #     page.generate_input()
+        #     print('view_category : ', page)
+        #     page.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
+        #     page.lift()
+        if name in self.TYPE_AVAILABLE:
+            page = self.TYPE_AVAILABLE[name](self)
+            page.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
+            page.show()
+        else:
+            # TODO : Non supporté, créer la classe correspondant au name si besoin
+            print(name, ' is unsupported')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -37,17 +71,12 @@ class App(tk.Frame):
         buttonframe.pack(side="top", fill="x", expand=False)
         self.container.pack(side="top", fill="both", expand=True)
 
-        btn_txt2img = tk.Button(buttonframe, text="txt2img", command=self.view_txt2img)
-        btn_img2img = tk.Button(buttonframe, text="img2img", command=self.view_img2img)
-        btn_txt2txt = tk.Button(buttonframe, text="txt2txt", command=self.view_txt2txt)
-        btn_img2txt = tk.Button(buttonframe, text="img2txt", command=self.view_img2txt)
-
-        btn_txt2img.pack(side="left")
-        btn_img2img.pack(side="left")
-        btn_txt2txt.pack(side="left")
-        btn_img2txt.pack(side="left")
-
-        self.view_txt2img()
+        category_list = self.get_categories()
+        if category_list is not None:
+            for category in category_list:
+                new_btn = tk.Button(buttonframe, text=category + ' from API',
+                                    command=partial(self.view_category, category))
+                new_btn.pack(side='left')
 
 
 if __name__ == "__main__":
