@@ -1,8 +1,5 @@
-import connexion
-import six
-
 import subprocess
-from os import listdir, remove, symlink
+from os import listdir, remove, mkdir
 from shutil import rmtree
 from os.path import isfile, exists
 from swagger_server.models.chemin_modele import CheminModele  # noqa: E501
@@ -26,6 +23,9 @@ def add_modele(body, nom_ia):  # noqa: E501
     retour = {"output":""}
     nom_modele = modele_ia.split("/")[-1]
     chemin_dest = f'./IA/{nom_ia}/models/{nom_modele}'
+
+    if(not exists(f'./IA/{nom_ia}/models/')):
+        mkdir(f'./IA/{nom_ia}/models/')
 
     if(not exists(chemin_dest)):
         process = subprocess.Popen(["./apiEnv/Scripts/python", "./toolkit/symlink.py", "-src", modele_ia, "-dest", chemin_dest], stdout=subprocess.PIPE, stderr=subprocess.PIPE)

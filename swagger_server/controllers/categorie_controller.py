@@ -1,6 +1,3 @@
-import connexion
-import six
-
 from os import listdir, mkdir
 from os.path import isfile, exists
 from swagger_server.models.output import Output  # noqa: E501

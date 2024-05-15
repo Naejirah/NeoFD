@@ -67,6 +67,10 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
 
     chemin = f'outputs/{nom_categorie}/{nom_ia}'
     fichier = "00000.txt"
+
+    if(not exists(chemin)):
+        mkdir(chemin)
+
     if(nom_categorie.split("2")[-1] == "txt"):
         print("Write inside a txt file")
         if(exists(chemin+'/'+fichier)):

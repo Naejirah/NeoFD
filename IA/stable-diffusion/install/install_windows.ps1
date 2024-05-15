@@ -15,6 +15,7 @@ try {
     ..\stable-diffusionEnv\Scripts\pip install -r .\requirements.txt 
     ..\stable-diffusionEnv\Scripts\pip install transformers==4.19.2 diffusers invisible-watermark
     
+    ..\stable-diffusionEnv\Scripts\pip uninstall torch
     ..\stable-diffusionEnv\Scripts\pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
     #Cp ldm
     # pip install

@@ -70,3 +70,7 @@ Set-Location IA/blip/install
 Write-Host "`n`n Installation de Stable-diffusion `n`n"
 Set-Location IA/stable-diffusion/install
 .\install_windows.ps1
+
+# 6 - Installation API
+Write-Host "`n`n Installation de l'API `n`n"
+.\install_windows_api.ps1

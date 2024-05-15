@@ -1,2 +1,0 @@
-Remove-Item ./toolkit/txt2img/stable-diffusion/inference.py
-New-Item -Path .\toolkit\txt2img\stable-diffusion\inference.py -ItemType SymbolicLink -Value ./IA/stable-diffusion/stablediffusion/scripts/txt2img.py        

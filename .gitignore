@@ -5,6 +5,7 @@ IA/blip/models/*
 IA/stable-diffusion/models/*
 IA/stable-diffusion/stableEnv/*
 outputs/*
+apiEnv/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
