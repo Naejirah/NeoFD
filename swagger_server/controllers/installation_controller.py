@@ -4,6 +4,7 @@ import six
 import subprocess
 from os import listdir, mkdir, remove
 from os.path import isfile, exists
+from shutil import rmtree
 from swagger_server.models.input_fichier_generation import InputFichierGeneration  # noqa: E501
 from swagger_server.models.input_fichier_installation import InputFichierInstallation  # noqa: E501
 from swagger_server.models.output import Output  # noqa: E501
@@ -81,7 +82,10 @@ def get_fichier_generation(nom_categorie, nom_ia):  # noqa: E501
 
     :rtype: Output
     """
-    return {"output": f'./toolkit/{nom_categorie}/{nom_ia}'}
+    if(exists(f'./toolkit/{nom_categorie}/{nom_ia}')):
+        return {"output": f'./toolkit/{nom_categorie}/{nom_ia}'}
+    else:
+        return {"output": ""}
 
 
 def get_fichier_installation(nom_ia):  # noqa: E501
@@ -94,8 +98,10 @@ def get_fichier_installation(nom_ia):  # noqa: E501
 
     :rtype: Output
     """
-    return {"output": f'./IA/{nom_ia}/install'}
-
+    if(exists(f'./IA/{nom_ia}/install')):
+        return {"output": f'./IA/{nom_ia}/install'}
+    else:
+        return {"output": ""}
 
 def lancement_fichier_installation(nom_ia, plateforme):  # noqa: E501
     """Lancement d&#x27;une installation d&#x27;une IA
@@ -167,4 +173,9 @@ def suppr_fichier_lancement(nom_categorie, nom_ia):  # noqa: E501
 
     :rtype: Output
     """
-    return 'do some magic!'
+    retour = {"output": ""}
+    chemin = f'./toolkit/{nom_categorie}/{nom_ia}'
+    if(exists(chemin)):
+        rmtree(chemin)
+        retour["output"] = chemin
+    return retour
