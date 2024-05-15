@@ -12,7 +12,7 @@ class BaseTextInput(tk.Frame):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        row = 2
+        row = 3
 
         container = tk.Frame(self)
         # Nb column = weight + 1
