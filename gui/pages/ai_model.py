@@ -112,7 +112,7 @@ class BaseAIModelPage(BaseAPIPage):
             for model in models:
                 name = model
                 path = ""
-                btn = tk.Button(self, name=name, text='Run with ' + name,
+                btn = tk.Button(self, name=(name.replace(".","")), text='Run with ' + name,
                                 command=partial(self.set_ai_and_model_path, ai_name, path))
                 btn.grid(row=2, column=i)
                 i += 1
