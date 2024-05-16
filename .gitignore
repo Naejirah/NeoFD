@@ -3,7 +3,8 @@ IA/falcon/models/*
 IA/blip/blipEnv/*
 IA/blip/models/*
 IA/stable-diffusion/models/*
-IA/stable-diffusion/stableEnv/*
+IA/stable-diffusion/stable-diffusionEnv/*
+./toolkit/txt2img/stable-diffusion/inference.py
 outputs/*
 apiEnv/*
 
