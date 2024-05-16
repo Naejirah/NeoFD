@@ -9,7 +9,6 @@ class BaseTxt2Txt(BaseAIModelPage, BaseTextInput):
 
     def generate(self):
         print('Model : {}'.format(self.current_model_path))
-        # print('Model path with radiobutton : ' + self.current_model_path_radiobutton.get())
         super().generate()
         print('Should generate a Text\n')
 

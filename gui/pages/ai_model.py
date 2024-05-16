@@ -1,7 +1,7 @@
 import json
 import tkinter as tk
 from functools import partial
-from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import askopenfilename, askdirectory
 
 import requests
 
@@ -14,11 +14,7 @@ class BaseAIModelPage(BaseAPIPage):
     name = ''
     ai_name = ''
     type = ''
-    model_list = []
-    ai_dict = {}
     ai_info = {}
-    model_dict = {}
-    api_dict = {}
 
     def set_ai_and_model_path(self, ai_name, model_path):
         self.ai_name = ai_name
@@ -37,18 +33,18 @@ class BaseAIModelPage(BaseAPIPage):
         return self.get_api_url() + 'modele/'
 
     def get_api_info(self):
-        # Faire la recherche d'IA et de modèle dans l'API pour les ajouter à l'IHM
-        # print('get_api_info : ', self.ai_info)
         if not self.ai_info:
             self.get_ais()
 
     def get_path_to_model(self):
-        return askopenfilename(title='Open an image', filetypes=[('models', '.ckpt'), ('all files', '.*')])
+        return askopenfilename(title='Open a cktp file', filetypes=[('models', '.ckpt'), ('all files', '.')])
+
+    def get_path_to_model_folder(self):
+        return askdirectory(title='Open a folder')
 
     def get_models(self, ai_name):
         url = self.get_model_api_url() + ai_name
         response = self.call_api(requests.get(url, headers={}))
-        print(response)
         if response is not None:
             models = [model['output'] for model in response]
             return models
@@ -59,14 +55,10 @@ class BaseAIModelPage(BaseAPIPage):
         response = self.call_api(requests.get(url, headers={}))
         if response is not None:
             ais = [ai['output'] for ai in response]
-            print(ais)
             for ai in ais:
                 models = self.get_models(ai)
-                print(models, "here")
                 if models is not None:
                     model_info = {}
-                    # TODO : il faut le nom et path des models
-                    
                     for model in models:
                         name = model
                         path = ""
@@ -81,13 +73,10 @@ class BaseAIModelPage(BaseAPIPage):
                         }
                     })
 
-    def add_ai(self):
-        print('TODO : adding an ai')
-
-    def add_model(self, ai_name):
+    def add_model(self, ai_name, is_file):
         url = self.post_model_api_url() + ai_name
         data = {
-            "chemin": self.get_path_to_model()
+            "chemin": self.get_path_to_model() if is_file else self.get_path_to_model_folder()
         }
         response = self.call_api(requests.post(url, json=data))
         if response is not None:
@@ -101,23 +90,22 @@ class BaseAIModelPage(BaseAPIPage):
                 btn.grid_forget()
 
         i = 0
-        # for model_name, model_path in ai['models'].items():
-        #     btn = tk.Button(self, name=model_name, text='Run with ' + model_name,
-        #                     command=partial(self.set_ai_and_model_path, ai_name, model_path))
-        #     btn.grid(row=2, column=i)
-        #     i += 1
-
         models = self.get_models(ai_name)
         if models is not None:
             for model in models:
                 name = model
                 path = ""
-                btn = tk.Button(self, name=(name.replace(".","")), text='Run with ' + name,
+                btn = tk.Button(self, name=(name.replace(".", "")), text='Run with ' + name,
                                 command=partial(self.set_ai_and_model_path, ai_name, path))
                 btn.grid(row=2, column=i)
                 i += 1
 
-        btn = tk.Button(self, name='new_model', text='Add new model', command=partial(self.add_model, ai_name))
+        btn = tk.Button(self, name='new_model_ckpt', text='Add new model (ckpt)',
+                        command=partial(self.add_model, ai_name, True))
+        btn.grid(column=i, row=2)
+        i += 1
+        btn = tk.Button(self, name='new_model_torch', text='Add new model (torch)',
+                        command=partial(self.add_model, ai_name, False))
         btn.grid(column=i, row=2)
 
         page.place(in_=self.ai_container, x=0, y=0, relwidth=1, relheight=1)
@@ -133,11 +121,6 @@ class BaseAIModelPage(BaseAPIPage):
             btn = tk.Button(buttonframe, text=ai_name, command=partial(self.view_ai, ai_name, ai))
             btn.grid(row=2, column=i)
             i += 1
-
-    # @staticmethod
-    # def on_click(e):
-    #     print(str(e.widget).split(".")[-1])
-    #     e.widget['background'] = 'red'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

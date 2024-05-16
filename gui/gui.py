@@ -13,17 +13,6 @@ RESOLUTION = '1440x810'
 
 
 class App(BaseAPIPage):
-    # INPUT_TYPE_AVAILABLE = {
-    #     'txt': BaseTextInput,
-    #     # 'img': Img2ImgPage
-    #     'img': BaseImageInput
-    # }
-    # OUTPUT_TYPE_AVAILABLE = {
-    #     'txt': BaseTextOutput,
-    #     # 'img': Img2ImgPage
-    #     # 'img': BaseImageOutput
-    # }
-
     TYPE_AVAILABLE = {
         'txt2img': Txt2ImgPage,
         'img2img': Img2ImgPage,
@@ -43,25 +32,13 @@ class App(BaseAPIPage):
         return response
 
     def view_category(self, name):
-        category_types = name.split('2')
-        # input_type = category_types[0]
-        # output_type = category_types[1]
-        # if input_type in self.INPUT_TYPE_AVAILABLE.keys() and output_type in self.OUTPUT_TYPE_AVAILABLE.keys():
-        #     input_page = self.INPUT_TYPE_AVAILABLE[input_type]
-        #     output_page = self.OUTPUT_TYPE_AVAILABLE[output_type]
-        #     print(input_page, output_page, 'ON VERIFIE')
-        #     page = BaseInput2Output(input_page, output_page)
-        #     page.generate_input()
-        #     print('view_category : ', page)
-        #     page.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
-        #     page.lift()
         if name in self.TYPE_AVAILABLE:
             page = self.TYPE_AVAILABLE[name](self)
             page.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
             page.show()
         else:
             # TODO : Non supporté, créer la classe correspondant au name si besoin
-            print(name, ' is unsupported')
+            print(name, ' is unsupported, you need to create the necessary type to "TYPE_AVAILABLE"')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

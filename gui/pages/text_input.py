@@ -9,6 +9,8 @@ class BaseTextInput(tk.Frame):
               'CFG Scale : {}\n'
               'Seed : {}\n'.format(self.entry.get(), self.width.get(), self.height.get(), self.cfg_scale.get(),
                                    self.seed.get()))
+        # je vais le POST sans prendre en compte le texte c'est pas grave car passe par param.json et tout
+        # mettre les commentaires comme ceux qui a été utilisé pour swagger
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
