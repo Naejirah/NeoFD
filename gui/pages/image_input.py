@@ -10,7 +10,6 @@ class BaseImageInput(tk.Frame):
     def get_image(self, row):
         self.filepath = askopenfilename(title='Open an image', filetypes=[('png files', '.png'), ('all files', '.*')])
         photo = tk.PhotoImage(file=self.filepath)
-        # canvas = tk.Canvas(self, width=photo.width(), height=photo.height())
         canvas = tk.Canvas(self, width=200, height=200)
         canvas.create_image(0, 0, anchor='nw', image=photo)
         canvas.grid(column=1, row=row)

@@ -1,5 +1,4 @@
 from .txt2txt import BaseTxt2Txt
-from .falcon import Falcon
 
 
 class Txt2TxtPage(BaseTxt2Txt):

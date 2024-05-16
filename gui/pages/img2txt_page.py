@@ -1,6 +1,4 @@
 from .img2txt import BaseImg2Txt
-from .blip import Blip
-# from .stablediffusion import StableDiffusion
 
 
 class Img2TxtPage(BaseImg2Txt):

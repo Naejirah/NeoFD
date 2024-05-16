@@ -1,4 +1,3 @@
-from .stablediffusion import StableDiffusion
 from .txt2img import BaseTxt2Img
 
 

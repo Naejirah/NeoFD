@@ -1,5 +1,3 @@
-import tkinter as tk
-
 from .ai_model import BaseAIModelPage
 from .text_input import BaseTextInput
 
@@ -12,8 +10,9 @@ class BaseTxt2Txt(BaseAIModelPage, BaseTextInput):
         super().generate()
         print('Should generate a Text\n')
 
-        # TODO : mnt je fais un post et get je crois à l'API avec les donénes que j'ai
-        # self.current_model_path, le texte, l'IA ...
+        response = self.post_ai_generation()
+        if response is not None:
+            print(response)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

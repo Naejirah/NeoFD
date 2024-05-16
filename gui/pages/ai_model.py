@@ -1,4 +1,3 @@
-import json
 import tkinter as tk
 from functools import partial
 from tkinter.filedialog import askopenfilename, askdirectory
@@ -7,7 +6,6 @@ import requests
 
 from .ai import BaseAI
 from .api_page import BaseAPIPage
-from .blip import Blip
 
 
 class BaseAIModelPage(BaseAPIPage):
@@ -16,12 +14,10 @@ class BaseAIModelPage(BaseAPIPage):
     type = ''
     ai_info = {}
 
-    def set_ai_and_model_path(self, ai_name, model_path):
+    def set_ai_and_model_path(self, ai_name, model_path, model_name):
         self.ai_name = ai_name
         self.current_model_path = model_path
-
-    # def get_model_path(self, path):
-    #     self.current_model_path = path
+        self.current_model_name = model_name
 
     def get_ai_api_url(self):
         return self.get_api_url() + 'ia/trouverParCategorie?Categorie={}'.format(self.type)
@@ -31,6 +27,16 @@ class BaseAIModelPage(BaseAPIPage):
 
     def post_model_api_url(self):
         return self.get_api_url() + 'modele/'
+
+    def post_ai_generation_url(self):
+        return self.get_api_url() + 'generation/'
+
+    def post_ai_generation(self):
+        url = self.post_ai_generation_url() + '{}/{}/{}'.format(self.type, self.ai_name, self.current_model_name)
+        response = self.call_api(requests.get(url, headers={}))
+        if response is not None:
+            return 'Generation succesfully POSTED'
+        return response
 
     def get_api_info(self):
         if not self.ai_info:
@@ -80,7 +86,7 @@ class BaseAIModelPage(BaseAPIPage):
         }
         response = self.call_api(requests.post(url, json=data))
         if response is not None:
-            self.set_ai_and_model_path(ai_name, data.get('chemin'))
+            self.set_ai_and_model_path(ai_name, data.get('chemin'), 'my_model_name')
 
     def view_ai(self, ai_name, ai):
         page = ai['class'](self)
@@ -96,7 +102,7 @@ class BaseAIModelPage(BaseAPIPage):
                 name = model
                 path = ""
                 btn = tk.Button(self, name=(name.replace(".", "")), text='Run with ' + name,
-                                command=partial(self.set_ai_and_model_path, ai_name, path))
+                                command=partial(self.set_ai_and_model_path, ai_name, path, name))
                 btn.grid(row=2, column=i)
                 i += 1
 
@@ -127,6 +133,7 @@ class BaseAIModelPage(BaseAPIPage):
 
         self.ai_container = None
         self.current_model_path = ''
+        self.current_model_name = ''
         self.row = 1
 
         self.get_api_info()

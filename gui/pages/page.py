@@ -7,5 +7,3 @@ class BasePage(Frame):
 
     def show(self, widgets=None):
         self.lift()
-        # for widget in widgets:
-        #     widget.pack_forget()

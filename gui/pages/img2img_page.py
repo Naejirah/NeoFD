@@ -1,6 +1,3 @@
-import tkinter as tk
-
-from .stablediffusion import StableDiffusion
 from .img2img import BaseImg2Img
 
 
