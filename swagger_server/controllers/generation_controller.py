@@ -2,6 +2,7 @@ import connexion
 import six
 import json
 import subprocess
+import codecs
 
 from os import listdir, mkdir
 from os.path import isfile, join, exists
@@ -79,8 +80,8 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
             fichier = listdir(chemin)[-1]
             num_fichier = str(int(fichier[:-4])+1)
             fichier = '0'*(5-len(num_fichier)) + num_fichier + ".txt"
-        with open(chemin+'/'+fichier, 'w') as f:
-            f.write(stdout.decode())
+        with codecs.open(chemin+'/'+fichier, 'w') as f:
+            f.write(stdout.decode('latin-1'))
     else:
         fichier = listdir(chemin)[-1]
         if(not isfile(chemin+'/'+fichier)):
