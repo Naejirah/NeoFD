@@ -2,6 +2,7 @@ import connexion
 import six
 import json
 import subprocess
+import codecs
 
 from os import listdir, mkdir
 from os.path import isfile, join, exists
@@ -47,7 +48,6 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
             else:
                 tab_param.append(f'./IA/{nom_ia}/models/{modele_ia}')
 
-    print(tab_param)
     # Exécuter le script Python dans l'environnement virtuel
     process = subprocess.Popen(tab_param, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
@@ -61,9 +61,6 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
         print("Le subprocess s'est terminé avec succès.")
     else:
         print("Le subprocess a échoué avec le code de sortie :", process.returncode)
-
-    print("Sortie standard :", stdout.decode())
-    print("Erreur standard :", stderr.decode())
 
     chemin = f'outputs/{nom_categorie}/{nom_ia}'
     fichier = "00000.txt"
@@ -83,8 +80,8 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
             fichier = listdir(chemin)[-1]
             num_fichier = str(int(fichier[:-4])+1)
             fichier = '0'*(5-len(num_fichier)) + num_fichier + ".txt"
-        with open(chemin+'/'+fichier, 'w') as f:
-            f.write(stdout.decode())
+        with codecs.open(chemin+'/'+fichier, 'w') as f:
+            f.write(stdout.decode('latin-1'))
     else:
         fichier = listdir(chemin)[-1]
         if(not isfile(chemin+'/'+fichier)):
