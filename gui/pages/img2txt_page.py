@@ -1,18 +1,26 @@
-import tkinter as tk
-
-from .ai_type import BaseAIType
 from .img2txt import BaseImg2Txt
 from .blip import Blip
+# from .stablediffusion import StableDiffusion
 
 
-class Img2TxtPage(BaseAIType, BaseImg2Txt):
+class Img2TxtPage(BaseImg2Txt):
     name = 'Image to Text'
-    ai_dict = {
-        'Blip': Blip
-    }
-    model_dict = {
-        'model-TBD': '/model/1/to/be/determined',
-        'model2-TBD': '/model/2/to/be/determined'
+
+    ai_info = {
+        'blip': {
+            'class': Blip,
+            'models': {
+                'model-TBD': '/model/1/to/be/determined',
+                'model2-TBD': '/model/2/to/be/determined'
+            }
+        },
+        # 'stable-diffusion': {
+        #     'class': StableDiffusion,
+        #     'models': {
+        #         'v2-1_768-ema-pruned': '/path/to/model/v2-1_768-ema',
+        #         'ema-pruned-next-generation': '/path/to/next/generation'
+        #     }
+        # }
     }
 
     def __init__(self, *args, **kwargs):

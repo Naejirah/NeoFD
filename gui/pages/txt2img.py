@@ -5,6 +5,8 @@ from .text_input import BaseTextInput
 
 
 class BaseTxt2Img(BaseAIModelPage, BaseTextInput):
+    type = 'txt2img'
+
     def generate(self):
         print('Model : {}'.format(self.current_model_path))
         # print('Model path with radiobutton : ' + self.current_model_path_radiobutton.get())
