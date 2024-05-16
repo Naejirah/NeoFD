@@ -1,5 +1,5 @@
-from .ai_model import BaseAIModelPage
-from .image_input import BaseImageInput
+from ..generics.ai_model import BaseAIModelPage
+from .inputs.image_input import BaseImageInput
 
 
 class BaseImg2Txt(BaseAIModelPage, BaseImageInput):

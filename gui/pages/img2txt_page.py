@@ -1,4 +1,4 @@
-from .img2txt import BaseImg2Txt
+from .type.img2txt import BaseImg2Txt
 
 
 class Img2TxtPage(BaseImg2Txt):

@@ -1,4 +1,4 @@
-from .txt2txt import BaseTxt2Txt
+from .type.txt2txt import BaseTxt2Txt
 
 
 class Txt2TxtPage(BaseTxt2Txt):

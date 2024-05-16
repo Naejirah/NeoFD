@@ -1,5 +1,5 @@
-from .ai_model import BaseAIModelPage
-from .text_input import BaseTextInput
+from ..generics.ai_model import BaseAIModelPage
+from .inputs.text_input import BaseTextInput
 
 
 class BaseTxt2Txt(BaseAIModelPage, BaseTextInput):

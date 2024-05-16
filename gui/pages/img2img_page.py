@@ -1,4 +1,4 @@
-from .img2img import BaseImg2Img
+from .type.img2img import BaseImg2Img
 
 
 class Img2ImgPage(BaseImg2Img):

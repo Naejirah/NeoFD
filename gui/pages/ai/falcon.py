@@ -1,6 +1,6 @@
-from .page import BasePage
+from ..generics.page import BasePage
 
 
-class Blip(BasePage):
+class Falcon(BasePage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

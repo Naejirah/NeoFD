@@ -1,6 +1,4 @@
-import tkinter as tk
-
-from .page import BasePage
+from ..generics.page import BasePage
 
 
 class BaseAI(BasePage):

@@ -7,7 +7,7 @@ from pages.img2img_page import Img2ImgPage
 from pages.txt2txt_page import Txt2TxtPage
 from pages.img2txt_page import Img2TxtPage
 
-from pages.api_page import BaseAPIPage
+from pages.generics.api_page import BaseAPIPage
 
 RESOLUTION = '1440x810'
 

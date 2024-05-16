@@ -4,8 +4,8 @@ from tkinter.filedialog import askopenfilename, askdirectory
 
 import requests
 
-from .ai import BaseAI
-from .api_page import BaseAPIPage
+from ..ai.ai import BaseAI
+from ..generics.api_page import BaseAPIPage
 
 
 class BaseAIModelPage(BaseAPIPage):
