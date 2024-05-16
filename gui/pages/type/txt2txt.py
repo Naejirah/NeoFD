@@ -1,3 +1,4 @@
+from ..ai.falcon import Falcon
 from ..generics.ai_model import BaseAIModelPage
 from .inputs.text_input import BaseTextInput
 

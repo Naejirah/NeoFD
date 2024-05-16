@@ -74,7 +74,7 @@ class App(BaseAPIPage):
         category_list = self.get_categories()
         if category_list is not None:
             for category in category_list:
-                new_btn = tk.Button(buttonframe, text=category + ' from API',
+                new_btn = tk.Button(buttonframe, text=category,
                                     command=partial(self.view_category, category))
                 new_btn.pack(side='left')
 

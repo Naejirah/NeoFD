@@ -3,6 +3,7 @@
 ![Image swagger](./doc/swagger.png)
 ![Image swagger](./doc/swagger_mod.png)
 ![Image swagger](./doc/swagger_gen.png)
+![Image IHM](./doc/gui.png)
 
 ## Installation du projet
 
@@ -25,6 +26,12 @@
 
 Accessible via http://localhost:8080/api/v1/ui/
 La liste des WS est disponible via l'API 
+
+## Lancement GUI
+
+```commandline
+.\apiEnv\Scripts\python gui/gui.py
+``` 
 
 ## Falcon
 
