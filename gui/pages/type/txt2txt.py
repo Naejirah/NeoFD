@@ -3,9 +3,19 @@ from .inputs.text_input import BaseTextInput
 
 
 class BaseTxt2Txt(BaseAIModelPage, BaseTextInput):
+    """
+    Base class for handling Text to Text AI.
+    """
+    name = 'Text to Text'
     type = 'txt2txt'
+    ai_info = {}
 
     def generate(self):
+        """
+        Generate the list of information and does a POST request to generate an output.
+
+        @return: void
+        """
         print('Model : {}'.format(self.current_model_path))
         super().generate()
         print('Should generate a Text\n')

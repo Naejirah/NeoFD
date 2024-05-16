@@ -3,9 +3,19 @@ from .inputs.image_input import BaseImageInput
 
 
 class BaseImg2Img(BaseAIModelPage, BaseImageInput):
+    """
+    Base class for handling Image to Image AI.
+    """
+    name = 'Image to Image'
     type = 'img2img'
+    ai_info = {}
 
     def generate(self):
+        """
+        Generate the list of information and does a POST request to generate an output.
+
+        @return: void
+        """
         print('Model : {}\n'.format(self.current_model_path))
         super().generate()
         print('Should generate an Image\n')
