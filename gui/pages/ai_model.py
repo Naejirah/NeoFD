@@ -45,28 +45,31 @@ class BaseAIModelPage(BaseAPIPage):
     def get_path_to_model(self):
         return askopenfilename(title='Open an image', filetypes=[('models', '.ckpt'), ('all files', '.*')])
 
-    def get_models(self):
-        for ai_name in self.model_dict:
-            url = self.get_model_api_url() + ai_name
-            response = self.call_api(requests.get(url, headers={}))
-            if response is not None:
-                models = [model['output'] for model in response]
-                return models
-            return response
+    def get_models(self, ai_name):
+        url = self.get_model_api_url() + ai_name
+        response = self.call_api(requests.get(url, headers={}))
+        print(response)
+        if response is not None:
+            models = [model['output'] for model in response]
+            return models
+        return response
 
     def get_ais(self):
         url = self.get_ai_api_url()
         response = self.call_api(requests.get(url, headers={}))
         if response is not None:
             ais = [ai['output'] for ai in response]
+            print(ais)
             for ai in ais:
-                models = self.get_models()
+                models = self.get_models(ai)
+                print(models, "here")
                 if models is not None:
                     model_info = {}
                     # TODO : il faut le nom et path des models
+                    
                     for model in models:
-                        name = model['name']
-                        path = model['chemin']
+                        name = model
+                        path = ""
                         model_info.update({
                             name: path
                         })
@@ -98,17 +101,17 @@ class BaseAIModelPage(BaseAPIPage):
                 btn.grid_forget()
 
         i = 0
-        for model_name, model_path in ai['models'].items():
-            btn = tk.Button(self, name=model_name, text='Run with ' + model_name,
-                            command=partial(self.set_ai_and_model_path, ai_name, model_path))
-            btn.grid(row=2, column=i)
-            i += 1
+        # for model_name, model_path in ai['models'].items():
+        #     btn = tk.Button(self, name=model_name, text='Run with ' + model_name,
+        #                     command=partial(self.set_ai_and_model_path, ai_name, model_path))
+        #     btn.grid(row=2, column=i)
+        #     i += 1
 
-        models = self.get_models()
+        models = self.get_models(ai_name)
         if models is not None:
             for model in models:
-                name = model['name']
-                path = model['chemin']
+                name = model
+                path = ""
                 btn = tk.Button(self, name=name, text='Run with ' + name,
                                 command=partial(self.set_ai_and_model_path, ai_name, path))
                 btn.grid(row=2, column=i)
