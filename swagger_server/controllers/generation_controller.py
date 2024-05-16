@@ -68,6 +68,9 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
     chemin = f'outputs/{nom_categorie}/{nom_ia}'
     fichier = "00000.txt"
 
+    if(not exists(f'outputs/{nom_categorie}')):
+        mkdir(f'outputs/{nom_categorie}')
+
     if(not exists(chemin)):
         mkdir(chemin)
 
@@ -77,9 +80,6 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
             fichier = listdir(chemin)[-1]
             num_fichier = str(int(fichier[:-4])+1)
             fichier = '0'*(5-len(num_fichier)) + num_fichier + ".txt"
-        else:
-            mkdir(f'outputs/{nom_categorie}')
-            mkdir(chemin)
         with open(chemin+'/'+fichier, 'w') as f:
             f.write(stdout.decode())
     else:
