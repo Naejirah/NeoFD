@@ -68,6 +68,9 @@ def generation_par_ia(nom_categorie, nom_ia, modele_ia):  # noqa: E501
     chemin = f'outputs/{nom_categorie}/{nom_ia}'
     fichier = "00000.txt"
 
+    if(not exists("outputs/")):
+        mkdir("outputs/")
+
     if(not exists(f'outputs/{nom_categorie}')):
         mkdir(f'outputs/{nom_categorie}')
 
