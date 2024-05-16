@@ -2,28 +2,44 @@ import tkinter as tk
 from functools import partial
 import requests
 
-from pages.txt2img_page import Txt2ImgPage
-from pages.img2img_page import Img2ImgPage
-from pages.txt2txt_page import Txt2TxtPage
-from pages.img2txt_page import Img2TxtPage
+from pages.type.txt2img import BaseTxt2Img
+from pages.type.img2img import BaseImg2Img
+from pages.type.txt2txt import BaseTxt2Txt
+from pages.type.img2txt import BaseImg2Txt
 
-from pages.api_page import BaseAPIPage
+from pages.generics.api_page import BaseAPIPage
 
 RESOLUTION = '1440x810'
 
 
 class App(BaseAPIPage):
+    """
+    Main class for the GUI.
+    """
+    # Dictionary of all the currently available types of AI.
+    # New types can be added if needed.
     TYPE_AVAILABLE = {
-        'txt2img': Txt2ImgPage,
-        'img2img': Img2ImgPage,
-        'txt2txt': Txt2TxtPage,
-        'img2txt': Img2TxtPage,
+        'txt2img': BaseTxt2Img,
+        'img2img': BaseImg2Img,
+        'txt2txt': BaseTxt2Txt,
+        'img2txt': BaseImg2Txt,
     }
 
     def get_api_url(self):
+        """
+        Method to get the API URL of all the available categories.
+
+
+        @return: API url
+        """
         return super().get_api_url() + 'categorie'
 
     def get_categories(self):
+        """
+        GET request to get all the available categories.
+
+        @return:
+        """
         url = self.get_api_url()
         response = self.call_api(requests.get(url, headers={}))
         if response is not None:
@@ -32,6 +48,12 @@ class App(BaseAPIPage):
         return response
 
     def view_category(self, name):
+        """
+        Method to display pages related to a specific category name.
+
+        @param name: name of the category
+        @return: void
+        """
         if name in self.TYPE_AVAILABLE:
             page = self.TYPE_AVAILABLE[name](self)
             page.place(in_=self.container, x=0, y=0, relwidth=1, relheight=1)
@@ -43,6 +65,7 @@ class App(BaseAPIPage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        # Displays the view of the GUI.
         buttonframe = tk.Frame(self)
         self.container = tk.Frame(self)
         buttonframe.pack(side="top", fill="x", expand=False)
@@ -56,6 +79,7 @@ class App(BaseAPIPage):
                 new_btn.pack(side='left')
 
 
+# Launches the Tkinter window
 if __name__ == "__main__":
     root = tk.Tk()
     main = App(root)
