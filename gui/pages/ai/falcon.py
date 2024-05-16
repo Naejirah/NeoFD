@@ -1,9 +1,10 @@
-import tkinter as tk
-
-from .page import BasePage
+from ..generics.page import BasePage
 
 
 class Falcon(BasePage):
+    """
+    Class for using the Falcon AI.
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        print('using Falcon')

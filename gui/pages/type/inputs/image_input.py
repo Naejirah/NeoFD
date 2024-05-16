@@ -3,14 +3,27 @@ from tkinter.filedialog import askopenfilename
 
 
 class BaseImageInput(tk.Frame):
+    """
+    Base class to display the list of information used for AI images.
+    """
     def generate(self):
+        """
+        Generate the list of information.
+
+        @return: void
+        """
         print('Path to file : {}\n'
               'Description : {}\n'.format(self.filepath, self.description.get()))
 
     def get_image(self, row):
+        """
+        Opens a selection widget for an image.
+
+        @param row: row line number
+        @return: void
+        """
         self.filepath = askopenfilename(title='Open an image', filetypes=[('png files', '.png'), ('all files', '.*')])
         photo = tk.PhotoImage(file=self.filepath)
-        # canvas = tk.Canvas(self, width=photo.width(), height=photo.height())
         canvas = tk.Canvas(self, width=200, height=200)
         canvas.create_image(0, 0, anchor='nw', image=photo)
         canvas.grid(column=1, row=row)
@@ -19,8 +32,9 @@ class BaseImageInput(tk.Frame):
         super().__init__(*args, **kwargs)
 
         self.filepath = ''
-        row = 2
+        row = 3
 
+        # Displays the different inputs
         container = tk.Frame(self)
         # Nb column = weight + 1
         container.columnconfigure(0, weight=1)

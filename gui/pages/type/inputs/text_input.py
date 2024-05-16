@@ -2,7 +2,15 @@ import tkinter as tk
 
 
 class BaseTextInput(tk.Frame):
+    """
+    Base class to display the list of information used for AI texts.
+    """
     def generate(self):
+        """
+        Generate the list of information.
+
+        @return: void
+        """
         print('Entry : {}\n'
               'Width : {}\n'
               'Height : {}\n'
@@ -12,8 +20,9 @@ class BaseTextInput(tk.Frame):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        row = 2
+        row = 3
 
+        # Displays the different inputs
         container = tk.Frame(self)
         # Nb column = weight + 1
         container.columnconfigure(0, weight=1)
