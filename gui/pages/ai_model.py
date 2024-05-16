@@ -12,6 +12,7 @@ from .blip import Blip
 
 class BaseAIModelPage(BaseAPIPage):
     name = ''
+    ai_name = ''
     type = ''
     model_list = []
     ai_dict = {}
@@ -19,8 +20,12 @@ class BaseAIModelPage(BaseAPIPage):
     model_dict = {}
     api_dict = {}
 
-    def get_model_path(self, path):
-        self.current_model_path = path
+    def set_ai_and_model_path(self, ai_name, model_path):
+        self.ai_name = ai_name
+        self.current_model_path = model_path
+
+    # def get_model_path(self, path):
+    #     self.current_model_path = path
 
     def get_ai_api_url(self):
         return self.get_api_url() + 'ia/trouverParCategorie?Categorie={}'.format(self.type)
@@ -83,7 +88,7 @@ class BaseAIModelPage(BaseAPIPage):
         }
         response = self.call_api(requests.post(url, json=data))
         if response is not None:
-            self.get_model_path(data.get('chemin'))
+            self.set_ai_and_model_path(ai_name, data.get('chemin'))
 
     def view_ai(self, ai_name, ai):
         page = ai['class'](self)
@@ -95,7 +100,7 @@ class BaseAIModelPage(BaseAPIPage):
         i = 0
         for model_name, model_path in ai['models'].items():
             btn = tk.Button(self, name=model_name, text='Run with ' + model_name,
-                            command=partial(self.get_model_path, model_path))
+                            command=partial(self.set_ai_and_model_path, ai_name, model_path))
             btn.grid(row=2, column=i)
             i += 1
 
@@ -105,7 +110,7 @@ class BaseAIModelPage(BaseAPIPage):
                 name = model['name']
                 path = model['chemin']
                 btn = tk.Button(self, name=name, text='Run with ' + name,
-                                command=partial(self.get_model_path, path))
+                                command=partial(self.set_ai_and_model_path, ai_name, path))
                 btn.grid(row=2, column=i)
                 i += 1
 
